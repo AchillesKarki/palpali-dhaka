@@ -1,0 +1,40 @@
+.btn {
+  &,
+  &:link,
+  &:visited {
+    min-width: 215px;
+    width: auto;
+    height: 50px;
+    letter-spacing: 0.5px;
+    line-height: 50px;
+    padding: 0 25px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: $color-white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    color: $color-white;
+    transform: translateY(-0.3rem);
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2);
+    background-color: lighten($color: $color-primary, $amount: 2);
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    transform: translateY(-0.1rem);
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
+  }
+
+  &.btn-primary {
+    background-color: $color-primary;
+  }
+
+  &.btn-secondary {
+    background-color: $color-secondary;
+  }
+}

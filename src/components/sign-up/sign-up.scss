@@ -1,0 +1,30 @@
+@import "../../styles/variables";
+
+.sign-up {
+  width: 50%;
+  max-width: 600px;
+  margin: 40px auto;
+
+  .form-group-buttons {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+
+    p {
+      font-weight: bold;
+      font-size: 18px;
+      margin: 0 15px;
+    }
+  }
+
+  .sign-in-wrapper {
+    margin-top: 40px;
+    text-align: center;
+
+    .sign-in-link {
+      font-weight: bold;
+      margin-left: 5px;
+      color: $color-primary;
+    }
+  }
+}

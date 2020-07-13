@@ -1,0 +1,36 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  font-family: "Montserrat", "Roboto", sans-serif;
+  letter-spacing: 0.02rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.main-content-wrapper {
+  padding: 10px 40px;
+}
+
+a {
+  text-decoration: none;
+  color: $color-black;
+
+  &:hover {
+    color: $color-primary;
+  }
+}

@@ -1,0 +1,56 @@
+// css code for forms
+.form-group {
+  position: relative;
+  margin: 25px 0;
+
+  .form-group-input {
+    background: none;
+    background-color: $color-white;
+    color: $color-grey;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid $color-grey;
+    margin-bottom: 15px;
+
+    &:focus {
+      outline: none;
+      background-color: transparent;
+    }
+
+    &:focus ~ .form-group-label {
+      @include shrinkLabel();
+    }
+
+    &.error-border {
+      border-bottom: 1px solid $color-error;
+    }
+  }
+
+  input[type="password"] {
+    letter-spacing: 0.3em;
+  }
+
+  .form-group-label {
+    color: $color-grey;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 300ms ease all;
+
+    &.shrink {
+      @include shrinkLabel();
+    }
+  }
+
+  .error-msg {
+    color: $color-error;
+    font-size: 12px;
+  }
+}
