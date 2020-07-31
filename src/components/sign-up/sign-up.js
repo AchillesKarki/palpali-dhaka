@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -43,11 +42,9 @@ export class SignUp extends Component {
           onSubmit={async (values) => {
             try {
               this.setState({ isLoading: true });
-              const { user } = await auth.createUserWithEmailAndPassword(values.email, values.password);
-              user.displayName = values.username;
-              await createUserProfileDocument(user);
+              let { user } = await auth.createUserWithEmailAndPassword(values.email, values.password);
+              await createUserProfileDocument(user, { username: values.username });
               this.setState({ isLoading: false });
-              this.props.history.push('/');
             } catch (error) {
               console.log(error);
               this.setState({ isLoading: false });
@@ -106,7 +103,7 @@ export class SignUp extends Component {
 
         <div className='sign-in-wrapper'>
           <p>
-            Already Have An Account?{' '}
+            Already Have An Account?
             <Link to='/auth/sign-in' className='sign-in-link'>
               SIGN IN
             </Link>
@@ -117,4 +114,4 @@ export class SignUp extends Component {
   }
 }
 
-export default withRouter(SignUp);
+export default SignUp;

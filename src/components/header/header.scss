@@ -6,12 +6,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   padding: 10px 40px;
   background-color: $color-white;
   box-shadow: 0 0.1rem 1rem rgba($color-black, 0.2);
 
-  .logo-container {
+  .brand-logo-container {
     height: 100%;
     width: 70px;
     padding: 5px;
@@ -26,58 +26,54 @@
 
     .nav-items {
       cursor: pointer;
-      padding: 10px 15px;
-    }
-  }
+      position: relative;
 
-  .dropdown {
-    &:hover .drop-btn,
-    &:hover .drop-btn .user-logo {
-      color: $color-primary;
-      fill: $color-primary;
-    }
+      .nav-item-link {
+        padding: 10px 15px;
+        z-index: 5;
 
-    &:hover .dropdown-content {
-      display: block;
-    }
-
-    .drop-btn {
-      display: inline-block;
-      color: $color-black;
-      text-align: center;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-
-      .user-logo {
-        width: 24px;
-        height: 24px;
+        &:hover,
+        &.active {
+          color: $color-primary;
+          fill: $color-primary;
+        }
       }
 
-      .drop-label {
-        margin-left: 5px;
+      .user-info-wrapper {
+        display: flex;
+        align-items: center;
+
+        .user-logo {
+          width: 24px;
+          height: 24px;
+        }
+
+        .user-label {
+          margin-left: 5px;
+        }
       }
-    }
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: $color-grey-1;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
+      .cart-info-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    .dropdown-content-item {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      text-align: left;
-    }
+        .cart-logo {
+          height: 26px;
+          width: 26px;
+        }
 
-    .dropdown-content-item:hover {
-      background-color: $color-grey-2;
+        .cart-price {
+          position: absolute;
+          top: -1px;
+          left: 18px;
+          font-size: 11px;
+          font-weight: 600;
+          width: 25px;
+          text-align: center;
+        }
+      }
     }
   }
 }

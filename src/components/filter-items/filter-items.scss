@@ -1,0 +1,21 @@
+.filter-items {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+
+	.filter-header {
+		text-align: left;
+		margin-right: auto;
+		margin-bottom: 40px;
+	}
+
+	&-by-customer-rating {
+		margin-bottom: 15px;
+	}
+
+	&-by-price {
+		margin-bottom: 15px;
+	}
+}

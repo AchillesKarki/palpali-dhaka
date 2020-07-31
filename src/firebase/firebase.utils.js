@@ -39,7 +39,7 @@ export const createUserProfileDocument = async (userInfo, additionalUserInfo) =>
 
     try {
       await userRef.set({
-        username: displayName,
+        username: displayName ? displayName : additionalUserInfo.username,
         email,
         createdAt,
         ...additionalUserInfo,

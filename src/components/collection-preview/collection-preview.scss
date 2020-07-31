@@ -1,15 +1,27 @@
+@import "../../styles/variables";
+
 .collection-preview {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+
+  & + .collection-preview {
+    margin-top: 30px;
+  }
 
   .title {
+    color: $color-black;
     font-size: 28px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
   }
 
   .preview {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .empty-message {
+    font-size: 18px;
+    margin: 50px auto;
   }
 }

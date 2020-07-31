@@ -1,0 +1,53 @@
+@import "../../styles/variables";
+
+.react-tabs {
+  &__tab-list {
+    width: 588px;
+    margin: 0 auto 20px auto;
+    padding: 0;
+    border-bottom: 1px solid $color-primary;
+
+    .react-tabs__tab {
+      position: relative;
+      font-size: 14px;
+      display: inline-block;
+      list-style: none;
+      padding: 10px 15px;
+      cursor: pointer;
+
+      &:hover:not(.react-tabs__tab--selected) {
+        color: $color-primary;
+      }
+
+      &--selected {
+        background-color: $color-primary;
+        color: $color-white;
+        border-radius: 5px 5px 0 0;
+      }
+    }
+  }
+}
+
+.shop-page-collections {
+  display: flex;
+  align-items: stretch;
+
+  .filter-section {
+    flex: 1;
+    max-width: 250px;
+    max-height: 500px;
+    box-shadow: 0.1rem 0.1rem 0.4rem rgba($color-black, 0.4);
+    padding: 15px;
+    border-radius: 5px;
+  }
+
+  .collection-section {
+    height: calc(100vh - 164px);
+    overflow-y: auto;
+    margin-left: 20px;
+    flex: 3;
+    box-shadow: 0.1rem 0.1rem 0.4rem rgba($color-black, 0.4);
+    padding: 15px;
+    border-radius: 5px;
+  }
+}

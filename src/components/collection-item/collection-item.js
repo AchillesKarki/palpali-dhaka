@@ -1,8 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { addCartItem } from '../../redux/cart/cart.action';
 
 import './collection-item.scss';
 
-const CollectionItem = ({ id, name, price, imageUrl }) => {
+const CollectionItem = ({ item, addCartItem }) => {
+  const { name, price, imageUrl } = item;
+
   return (
     <div className='collection-item'>
       <div
@@ -13,10 +18,22 @@ const CollectionItem = ({ id, name, price, imageUrl }) => {
       ></div>
       <div className='collection-footer'>
         <span className='name'>{name}</span>
-        <span className='price'>{price}</span>
+        <span className='price'>${price}</span>
+      </div>
+      <div className='collection-actions'>
+        <button type='button' className='btn btn-secondary btn-small'>
+          Product Details
+        </button>
+        <button type='button' className='btn btn-primary btn-small' onClick={() => addCartItem(item)}>
+          Add to Cart
+        </button>
       </div>
     </div>
   );
 };
 
-export default CollectionItem;
+const mapDispatchToProps = (dispatch) => ({
+  addCartItem: (item) => dispatch(addCartItem(item)),
+});
+
+export default connect(null, mapDispatchToProps)(CollectionItem);

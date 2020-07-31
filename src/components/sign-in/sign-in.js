@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 
 import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -12,7 +11,7 @@ import Loader from '../loader/loader';
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(5, 'Password must be at-least 5 characters').required('Password is required'),
+  password: Yup.string().min(6, 'Password must be at-least 6 characters').required('Password is required'),
 });
 
 export class SignIn extends Component {
@@ -40,7 +39,6 @@ export class SignIn extends Component {
               this.setState({ isLoading: true });
               await auth.signInWithEmailAndPassword(values.email, values.password);
               this.setState({ isLoading: false });
-              this.props.history.push('/');
             } catch (error) {
               console.log(error);
               this.setState({ isLoading: false });
@@ -97,4 +95,4 @@ export class SignIn extends Component {
   }
 }
 
-export default withRouter(SignIn);
+export default SignIn;

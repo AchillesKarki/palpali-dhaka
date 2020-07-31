@@ -1,0 +1,115 @@
+@import "../../styles/mixins";
+@import "../../styles/variables";
+
+.checkout-page {
+  max-width: 800px;
+  margin: 0 auto;
+
+  .checkout-page-table {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    padding-top: 60px;
+    background-color: $color-white;
+    box-shadow: 0 0px 40px 0px rgba($color-black, 0.15);
+    border-radius: 5px;
+    overflow: hidden;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .checkout-page-table-head {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+
+      .table-header-cell {
+        text-align-last: left;
+        font-size: 18px;
+        color: $color-white;
+        line-height: 1.4;
+        background-color: $color-primary;
+        padding: 18px 0;
+      }
+    }
+
+    .checkout-page-table-body {
+      position: relative;
+      height: 306px;
+      overflow-x: hidden !important;
+      overflow-y: auto;
+
+      @include respond(big-desktop) {
+        height: 408px;
+      }
+
+      tr:nth-child(even) {
+        background-color: $color-grey-2;
+      }
+
+      .table-body-cell {
+        font-size: 16px;
+        color: $color-secondary;
+        line-height: 1.4;
+        padding: 16px 0;
+      }
+
+      .no-items-message {
+        height: 100%;
+        font-size: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .happy {
+          display: inline-block;
+          margin-top: 20px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .checkout-page-table-footer {
+      padding: 12px 0;
+      border-top: 1px solid $color-primary;
+      display: flex;
+
+      .footer-label {
+        font-size: 20px;
+        margin-left: auto;
+        margin-right: 20px;
+
+        .price {
+          font-size: 22px;
+          margin-left: 5px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    th.column1,
+    td.column1 {
+      width: 40%;
+      padding-left: 40px !important;
+    }
+
+    th.column2,
+    td.column2 {
+      width: 20%;
+    }
+
+    th.column3,
+    td.column3 {
+      width: 20%;
+    }
+
+    th.column4,
+    td.column4 {
+      width: 20%;
+    }
+  }
+}

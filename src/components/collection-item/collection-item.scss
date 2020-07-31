@@ -1,32 +1,59 @@
+@import "../../styles/variables";
+
 .collection-item {
-    width: 22%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0.1rem 0.1rem 0.4rem rgba($color-black, 0.4);
+
+  &:hover .image {
+    filter: blur(2px);
+  }
+
+  &:hover .collection-actions {
+    opacity: 1;
+  }
+
+  .image {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    transition: filter 200ms ease-in-out;
+  }
+
+  .collection-footer {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    height: 350px;
+    justify-content: space-between;
+    font-size: 14px;
+    padding: 10px;
+    background-color: $color-grey-2;
+    z-index: 1;
+
+    .price {
+      font-weight: 600;
+    }
+  }
+
+  .collection-actions {
+    position: absolute;
+    top: 120px;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
 
-    .image {
-        width: 100%;
-        height: 95%;
-        background-size: cover;
-        background-position: center;
-        margin-bottom: 5px;
+    .btn {
+      &:first-child {
+        margin-bottom: 15px;
+      }
     }
-
-    .collection-footer {
-        width: 100%;
-        height: 5%;
-        display: flex;
-        justify-content: space-between;
-        font-size: 18px;
-
-        .name {
-            width: 90%;
-            margin-bottom: 15px;
-        }
-
-        .price {
-            width: 10%;
-        }
-    }
+  }
 }
