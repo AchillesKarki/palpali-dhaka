@@ -79,12 +79,12 @@
       display: flex;
 
       .footer-label {
-        font-size: 20px;
+        font-size: 18px;
         margin-left: auto;
         margin-right: 20px;
 
         .price {
-          font-size: 22px;
+          font-size: 20px;
           margin-left: 5px;
           font-weight: 500;
         }
@@ -110,6 +110,31 @@
     th.column4,
     td.column4 {
       width: 20%;
+    }
+  }
+
+  &-payment-options-text {
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 20px;
+
+    @include respond(big-desktop) {
+      margin-top: 40px;
+    }
+  }
+
+  &-payment-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+
+    .btn {
+      margin-right: 40px;
+      margin-top: -3px;
+      min-width: 150px !important;
+      width: 150px !important;
     }
   }
 }

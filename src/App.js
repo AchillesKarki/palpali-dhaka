@@ -64,7 +64,6 @@ export class App extends Component {
         <Header />
         <div className='main-content-wrapper'>
           <Switch>
-            <Route exact path='/' component={HomePage} />
             <Route exact path='/shop/:product' component={ShopPage} />
             <Route exact path='/profile' component={ProfilePage} />
             <Route exact path='/checkout' component={CheckoutPage} />
@@ -76,6 +75,7 @@ export class App extends Component {
               render={() => (this.props.currentUser ? <Redirect to='/' /> : <AuthPage />)}
             />
           </Switch>
+          <Route exact path='/' component={HomePage} />
         </div>
       </>
     );

@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import './checkout-page.scss';
-import CheckoutItem from '../../components/checkout-item/checkout-item';
-
 import { selectCartItems, selectTotalCartItems, selectTotalCartAmount } from '../../redux/cart/cart.selector';
 
+import './checkout-page.scss';
+import CheckoutItem from '../../components/checkout-item/checkout-item';
+import ModalStripe from '../../components/modal-stripe/modal-stripe';
+import PaymentPayPal from '../../components/payment-paypal/payment-paypal';
+
 const CheckoutPage = ({ cartItems, totalCartItems, totalCartAmount }) => {
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   return (
     <div className='checkout-page'>
       <div className='checkout-page-table'>
@@ -47,6 +58,19 @@ const CheckoutPage = ({ cartItems, totalCartItems, totalCartAmount }) => {
           </div>
         </div>
       </div>
+      <div className='checkout-page-payment-options-text'>Payment Options:</div>
+      <div className='checkout-page-payment-button-wrapper'>
+        <button
+          className='btn btn-primary btn-no-animation'
+          disabled={!totalCartItems}
+          title={totalCartItems ? 'Proceed to Checkout With Stripe' : 'No Items In The Cart'}
+          onClick={openModal}
+        >
+          Stripe
+        </button>
+        <PaymentPayPal />
+      </div>
+      <ModalStripe modalIsOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );
 };
@@ -57,6 +81,4 @@ const mapStateToProps = createStructuredSelector({
   totalCartAmount: selectTotalCartAmount,
 });
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPage);
+export default connect(mapStateToProps)(CheckoutPage);

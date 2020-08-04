@@ -1,0 +1,38 @@
+@import "../../../styles/variables";
+
+.stripe-checkout-form {
+  &-label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &-card-element {
+    margin: 15px 0;
+    padding: 15px 0;
+    border-top: 1px solid $color-grey-2;
+    border-bottom: 1px solid $color-grey-2;
+  }
+
+  &-address {
+    font-size: 12px;
+    text-align: right;
+    color: $color-black;
+    margin-bottom: 20px;
+  }
+
+  .card-errors {
+    font-size: 12px !important;
+    color: $color-error !important;
+  }
+
+  &-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 15px;
+
+    .btn + .btn {
+      margin-left: 15px;
+    }
+  }
+}

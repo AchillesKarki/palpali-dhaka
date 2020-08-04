@@ -1,0 +1,93 @@
+@import "../../styles/variables";
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba($color-black, 0.3);
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: all 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.modal {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 500px;
+  width: auto;
+  margin: 0.5rem;
+  pointer-events: none;
+  border: none;
+  outline: none;
+
+  .modal-content {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: $color-white;
+    background-clip: padding-box;
+    border-radius: 5px;
+    box-shadow: 0 5px 11px 0 rgba($color-black, 0.18), 0 4px 15px 0 rgba($color-black, 0.15);
+
+    .modal-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      border-bottom: 1px solid $color-grey-2;
+      background-color: $color-grey-2;
+
+      .modal-title {
+        font-size: 20px;
+      }
+
+      .close {
+        position: absolute;
+        right: 20px;
+        font-size: 32px;
+        border: 0;
+        cursor: pointer;
+        background-color: transparent;
+        outline: none;
+
+        &:hover {
+          color: $color-grey;
+        }
+      }
+    }
+
+    .modal-body {
+      position: relative;
+      padding: 15px;
+    }
+
+    .modal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 15px;
+
+      .btn + .btn {
+        margin-left: 15px;
+      }
+    }
+  }
+}
