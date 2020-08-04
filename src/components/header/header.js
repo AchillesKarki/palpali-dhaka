@@ -30,11 +30,6 @@ const Header = (props) => {
       </NavLink>
       <nav className='nav'>
         <div className='nav-items'>
-          <NavLink className='nav-item-link' to='/' activeClassName='active'>
-            HOME
-          </NavLink>
-        </div>
-        <div className='nav-items'>
           <NavLink className='nav-item-link' to='/shop/popular' activeClassName='active'>
             SHOP
           </NavLink>
