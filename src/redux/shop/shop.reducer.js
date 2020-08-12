@@ -1,22 +1,52 @@
 import { ShopActionTypes } from './shop.types';
-import { getShopCollections, getFilteredShopCollections } from '../../utils';
 
 const INITIAL_STATE = {
-  collections: [],
+  products: [],
+  isLoading: false,
+  errorMessage: null,
+  productsFilters: {
+    price: [],
+    rating: [],
+  },
 };
 
 const shopReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ShopActionTypes.GET_SHOP_COLLECTIONS:
+    case ShopActionTypes.FETCH_SHOP_PRODUCTS_START:
       return {
         ...state,
-        collections: getShopCollections(action.payload.index),
+        isLoading: true,
       };
 
-    case ShopActionTypes.GET_FILTERED_SHOP_COLLECTIONS:
+    case ShopActionTypes.FETCH_SHOP_PRODUCTS_SUCCESS:
       return {
         ...state,
-        collections: getFilteredShopCollections(action.payload.filter),
+        isLoading: false,
+        products: action.payload,
+      };
+
+    case ShopActionTypes.FETCH_SHOP_PRODUCTS_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        errorMessage: action.payload,
+      };
+
+    case ShopActionTypes.SET_PRODUCTS_FILTERS:
+      const newProductFilters = { ...state.productsFilters, [action.payload.filterType]: action.payload.filterValue };
+
+      return {
+        ...state,
+        productsFilters: newProductFilters,
+      };
+
+    case ShopActionTypes.CLEAR_PRODUCTS_FILTERS:
+      return {
+        ...state,
+        productsFilters: {
+          price: [],
+          rating: [],
+        },
       };
 
     default:

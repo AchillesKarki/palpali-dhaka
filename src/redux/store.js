@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 import userReducer from './user/user.reducer';
 import cartReducer from './cart/cart.reducer';
@@ -11,7 +12,11 @@ const rootReducer = combineReducers({
   shop: shopReducer,
 });
 
-const middlewares = [logger];
+const middlewares = [thunk];
+
+if (process.env.NODE_ENV === 'development') {
+  middlewares.push(logger);
+}
 
 const store = createStore(rootReducer, applyMiddleware(...middlewares));
 

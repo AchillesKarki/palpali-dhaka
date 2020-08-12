@@ -7,7 +7,7 @@ import { selectTotalCartAmount } from '../../redux/cart/cart.selector';
 
 import './payment-paypal.scss';
 
-let PayPalButton = window.paypal.Buttons.driver('react', { React, ReactDOM });
+let PayPalButton = window.paypal && window.paypal.Buttons.driver('react', { React, ReactDOM });
 
 const PaymentPayPal = ({ totalCartAmount }) => {
   // eslint-disable-next-line no-unused-vars

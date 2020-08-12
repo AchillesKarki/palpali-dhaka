@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
+import StarRatings from '../star-ratings/star-ratings';
 import './cart-item.scss';
 
 const CartItem = ({ cartItem, history }) => {
@@ -16,9 +17,14 @@ const CartItem = ({ cartItem, history }) => {
       <img src={cartItem.imageUrl} alt={cartItem.name} />
       <div className='item-details'>
         <span className='name'>{cartItem.name}</span>
-        <span className='price'>
-          {cartItem.quantity} x ${cartItem.price}
-        </span>
+        <div className='price-and-rating'>
+          <span className='price'>
+            {cartItem.quantity} x ${cartItem.price}
+          </span>
+          <div className='rating'>
+            <StarRatings ratings={cartItem.rating} />
+          </div>
+        </div>
       </div>
     </div>
   );

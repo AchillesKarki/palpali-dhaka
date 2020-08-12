@@ -1,0 +1,19 @@
+@import "../../styles/variables";
+
+.star-ratings-wrapper {
+  .stars {
+    width: 12px;
+    height: 12px;
+
+    & + .stars {
+      margin-left: 3px;
+    }
+
+    .active-stars {
+    }
+
+    &.inactive-stars {
+      fill: $color-grey;
+    }
+  }
+}
