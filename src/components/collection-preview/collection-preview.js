@@ -3,21 +3,27 @@ import React from 'react';
 import './collection-preview.scss';
 
 import CollectionItem from '../collection-item/collection-item';
+import Loader from '../loader/loader';
 
-const CollectionPreview = ({ title, items }) => {
+const CollectionPreview = ({ products, isLoading }) => {
   return (
-    <div className='collection-preview'>
-      <h1 className='title'>{title.toUpperCase()}</h1>
-      {items.length ? (
-        <div className='preview'>
-          {items.map((item) => (
-            <CollectionItem key={item.id} item={item} />
-          ))}
-        </div>
+    <>
+      {isLoading ? (
+        <Loader />
       ) : (
-        <div className='empty-message'>There are no items for the selected filter.</div>
+        <div className='collection-preview'>
+          {products.length ? (
+            <div className='preview'>
+              {products.map((item) => (
+                <CollectionItem key={item.id} cartItem={item} />
+              ))}
+            </div>
+          ) : (
+            <div className='empty-message'>There are no items for the selected filter.</div>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

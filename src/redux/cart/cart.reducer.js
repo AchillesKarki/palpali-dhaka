@@ -1,5 +1,5 @@
 import { CartActionTypes } from './cart-types';
-import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../../utils';
+import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../../utility/utils';
 
 const INITIAL_STATE = {
   toggleCart: false,

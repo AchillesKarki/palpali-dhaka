@@ -2,7 +2,7 @@
 
 .react-tabs {
   &__tab-list {
-    width: 588px;
+    width: 397px;
     margin: 0 auto 20px auto;
     padding: 0;
     border-bottom: 1px solid $color-primary;
@@ -26,28 +26,34 @@
       }
     }
   }
+
+  &__tab-panel {
+    width: 100%;
+  }
 }
 
 .shop-page-collections {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
+  position: relative;
 
   .filter-section {
     flex: 1;
     max-width: 250px;
-    max-height: 500px;
     box-shadow: 0.1rem 0.1rem 0.4rem rgba($color-black, 0.4);
-    padding: 15px;
+    padding: 20px;
     border-radius: 5px;
+    position: sticky;
+    top: 20px;
   }
 
   .collection-section {
-    height: calc(100vh - 164px);
+    min-height: 500px;
     overflow-y: auto;
     margin-left: 20px;
     flex: 3;
     box-shadow: 0.1rem 0.1rem 0.4rem rgba($color-black, 0.4);
-    padding: 15px;
+    padding: 20px;
     border-radius: 5px;
   }
 }

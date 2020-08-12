@@ -29,6 +29,17 @@
 
     .name {
       margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .price-and-rating {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .price {
+        font-size: 13px;
+      }
     }
   }
 }

@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import './checkout-item.scss';
-import { connect } from 'react-redux';
-
 import { addCartItem, removeCartItem, clearCartItem } from '../../redux/cart/cart.action';
+
+import StarRatings from '../star-ratings/star-ratings';
+import './checkout-item.scss';
 
 const CheckoutItem = ({ cartItem, addCartItem, removeCartItem, clearCartItem, history }) => {
   /**
@@ -19,7 +20,12 @@ const CheckoutItem = ({ cartItem, addCartItem, removeCartItem, clearCartItem, hi
       <td className='table-body-cell column1'>
         <div className='product-item' title='View Product Details' onClick={handleItemClick}>
           <img src={cartItem.imageUrl} alt={cartItem.name} />
-          <span className='name'>{cartItem.name}</span>
+          <div className='name-and-rating'>
+            <span className='name'>{cartItem.name}</span>
+            <div className='rating'>
+              <StarRatings ratings={cartItem.rating} />
+            </div>
+          </div>
         </div>
       </td>
       <td className='table-body-cell column2'>

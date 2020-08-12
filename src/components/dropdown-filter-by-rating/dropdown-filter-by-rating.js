@@ -1,36 +1,40 @@
 import React from 'react';
-import Dropdown from 'react-dropdown';
+import Select from 'react-dropdown-select';
 
-import 'react-dropdown/style.css';
+import { RATING_TYPES } from '../../config';
 
-const DropdownFilterByRating = ({ handleFilterByRating }) => {
-  const types = [
-    {
-      value: 4,
-      label: '4 and Up',
-    },
-    {
-      value: 3,
-      label: '3 and Up',
-    },
-    {
-      value: 2,
-      label: '2 and Up',
-    },
-    {
-      value: 1,
-      label: '1 and Up',
-    },
-  ];
+const DropdownFilterByRating = ({ ratingFilter, setProductsFilters }) => {
+  /**
+   * handles the dropdown select event
+   * @param {Object} e the select event
+   */
+  const handleSelect = (e) => {
+    setProductsFilters('rating', e);
+  };
 
-  const onSelect = (e) => {
-    handleFilterByRating(e.value);
+  /**
+   * handles the dropdown clear event
+   */
+  const clearFilter = () => {
+    setProductsFilters('rating', []);
   };
 
   return (
     <>
       <h4>Rating:</h4>
-      <Dropdown options={types} onChange={onSelect} placeholder='Select an option' />
+      <div className='dropdown-wrapper'>
+        <Select
+          values={ratingFilter}
+          options={RATING_TYPES}
+          onChange={(values) => handleSelect(values)}
+          searchable={false}
+        />
+        {ratingFilter && ratingFilter.length ? (
+          <span className='clear-filter-button' onClick={() => clearFilter()}>
+            &#10005;
+          </span>
+        ) : null}
+      </div>
     </>
   );
 };

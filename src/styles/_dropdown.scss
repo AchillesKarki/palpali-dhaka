@@ -1,40 +1,3 @@
-.Dropdown-root {
-  border-radius: 5px 5px 0 0;
-  margin: 15px 0;
-  width: 200px;
-
-  .Dropdown-control {
-    .Dropdown-placeholder {
-      font-size: 14px;
-      color: $color-black;
-    }
-
-    .Dropdown-arrow-wrapper {
-      .Dropdown-arrow {
-      }
-    }
-  }
-
-  .Dropdown-menu {
-    border-radius: 0 0 5px 5px;
-    max-height: 210px;
-
-    .Dropdown-option {
-      font-size: 14px;
-      color: $color-black;
-
-      &:hover {
-        background-color: $color-grey-2;
-      }
-
-      &.is-selected {
-        background-color: $color-primary;
-        color: $color-white;
-      }
-    }
-  }
-}
-
 .dropdown {
   position: absolute;
   min-width: 160px;
@@ -75,5 +38,57 @@
 
   button {
     margin-top: auto;
+  }
+}
+
+// react-dropdown-select component css overwrite
+.react-dropdown-select {
+  border-radius: 5px !important;
+  margin: 15px 0 !important;
+  width: 200px !important;
+  padding: 0 10px !important;
+
+  &:hover {
+    border-color: $color-primary !important;
+  }
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  &-content {
+    span {
+      font-size: 14px !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  &-item {
+    font-size: 14px !important;
+    &-selected {
+      background-color: $color-primary !important;
+    }
+  }
+}
+
+// overrides for filter dropdown
+.dropdown-wrapper {
+  position: relative;
+
+  .clear-filter-button {
+    position: absolute;
+    top: 10px;
+    left: 150px;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-error;
+    }
   }
 }

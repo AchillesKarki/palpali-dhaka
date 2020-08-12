@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { createStructuredSelector } from 'reselect';
 
-import { SECTIONS } from '../../config/constants';
-import { selectShopCollections } from '../../redux/shop/shop.selector';
-import { getShopCollections } from '../../redux/shop/shop.action';
+import { PRODUCTS_CATEGORY } from '../../config';
+import { selectShopProducts, selectIsLoading } from '../../redux/shop/shop.selector';
+import { fetchProductsStartAsync, clearProductsFilters } from '../../redux/shop/shop.action';
 
 import CollectionPreview from '../../components/collection-preview/collection-preview';
 import FilterItems from '../../components/filter-items/filter-items';
@@ -19,109 +19,75 @@ export class ProductsTab extends Component {
 
     this.state = {
       tabIndex: 0,
-      sections: SECTIONS,
+      productType: '',
     };
   }
 
   componentDidMount() {
-    const tabIndex = SECTIONS.find((section) => section.linkUrl === this.props.product).id;
+    const tabIndex = PRODUCTS_CATEGORY.find((section) => section.title === this.props.product).index;
     this.handleTabChange(tabIndex);
   }
 
   /**
    * handles the tab change event
    * @param {Number} index the current selected tab index
+   * @param {Number} lastIndex the last selected tab index
+   * @param {Object} e the tab select event
    */
-  handleTabChange = (index) => {
-    this.props.getShopCollections(index);
-
-    switch (index) {
-      case 0:
-        this.setState({
-          tabIndex: index,
-        });
-        this.props.history.push('/shop/popular');
-        break;
-
-      case 1:
-        this.setState({
-          tabIndex: index,
-        });
-        this.props.history.push('/shop/hats');
-        break;
-
-      case 2:
-        this.setState({
-          tabIndex: index,
-        });
-        this.props.history.push('/shop/bags');
-        break;
-
-      case 3:
-        this.setState({
-          tabIndex: index,
-        });
-        this.props.history.push('/shop/shoes');
-        break;
-
-      case 4:
-        this.setState({
-          tabIndex: index,
-        });
-        this.props.history.push('/shop/womens');
-        break;
-
-      case 5:
-        this.setState({
-          tabIndex: index,
-        });
-        this.props.history.push('/shop/mens');
-        break;
-
-      default:
-        break;
+  handleTabChange = (index, lastIndex, e) => {
+    let productType = this.props.product;
+    if (e) {
+      productType = e.target.innerText.toLowerCase();
     }
+
+    this.setState({
+      tabIndex: index,
+      productType,
+    });
+
+    this.props.clearProductsFilters();
+    this.props.getShopProducts(productType);
   };
 
   render() {
-    const collections = this.props.collections;
+    const products = this.props.products;
     const tabIndex = this.state.tabIndex;
 
     return (
-      <Tabs selectedIndex={tabIndex} onSelect={(index) => this.handleTabChange(index)}>
+      <Tabs
+        selectedIndex={tabIndex}
+        onSelect={(index, lastIndex, event) => this.handleTabChange(index, lastIndex, event)}
+      >
         <TabList>
-          {this.state.sections.map((section) => (
-            <Tab key={section.id}>{section.title.toUpperCase()}</Tab>
+          {PRODUCTS_CATEGORY.map((category) => (
+            <Tab key={category.index}>{category.title.toUpperCase()}</Tab>
           ))}
         </TabList>
-        {this.state.sections.map((section) => (
-          <TabPanel key={section.id}>
-            <div className='shop-page-collections'>
-              {section.id !== 0 && (
-                <div className='filter-section'>
-                  <FilterItems product={section.title} />
-                </div>
-              )}
-              <div className='collection-section'>
-                {collections &&
-                  collections.map(({ id, ...otherCollectionProps }) => (
-                    <CollectionPreview key={id} {...otherCollectionProps} />
-                  ))}
-              </div>
-            </div>
-          </TabPanel>
-        ))}
+        <div className='shop-page-collections'>
+          <div className='filter-section'>
+            <FilterItems productType={this.state.productType} />
+          </div>
+          <div className='collection-section'>
+            {PRODUCTS_CATEGORY.map((category) => (
+              <TabPanel key={category.index}>
+                {products && <CollectionPreview products={products} isLoading={this.props.isLoading} />}
+              </TabPanel>
+            ))}
+          </div>
+        </div>
       </Tabs>
     );
   }
 }
 
 const mapStateToProps = createStructuredSelector({
-  collections: selectShopCollections,
+  products: selectShopProducts,
+  isLoading: selectIsLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getShopCollections: (index) => dispatch(getShopCollections(index)),
+  getShopProducts: (productType) => dispatch(fetchProductsStartAsync(productType)),
+  clearProductsFilters: () => dispatch(clearProductsFilters()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductsTab));
