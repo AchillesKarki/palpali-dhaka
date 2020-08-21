@@ -20,9 +20,27 @@
     margin-bottom: 20px;
   }
 
+  .demo-card-info {
+    margin-top: 15px;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: $color-error;
+    color: $color-white;
+    text-transform: uppercase;
+    border-radius: 5px;
+
+    .card-details {
+      margin: 0 10px;
+      font-size: 14px;
+    }
+  }
+
   .card-errors {
     font-size: 12px !important;
     color: $color-error !important;
+    text-align: right;
   }
 
   &-footer {

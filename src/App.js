@@ -1,23 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { setCurrentUser, closeUserDropdown } from './redux/user/user.action';
-import { closeCartDropdown } from './redux/cart/cart.action';
+import { asyncUserRequestSuccess, closeUserDropdown, asyncUserRequestFailure } from './redux/user/user.action';
+import { closeCartDropdown, fetchCartItemsStartAsync } from './redux/cart/cart.action';
 import { selectCurrentUser, selectToggleUser } from './redux/user/user.selector';
 import { selectToggleCart } from './redux/cart/cart.selector';
 
-import HomePage from './pages/home-page/home-page';
-import ShopPage from './pages/shop-page/shop-page';
-import CheckoutPage from './pages/checkout-page/checkout-page';
-import ProfilePage from './pages/profile-page/profile-page';
-import ContactPage from './pages/contact-page/contact-page';
-import ProductDetailPage from './pages/product-detail-page/product-detail-page';
-import AuthPage from './pages/auth-page/auth-page';
+import { auth } from './firebase/firebase.utils';
+import { createUserProfileDocument } from './utility/user-utils';
 
 import Header from './components/header/header';
+import Loader from './components/loader/loader';
+import ErrorBoundary from './components/error-boundary/error-boundary';
+
+const HomePage = lazy(() => import('./pages/home-page/home-page'));
+const ShopPage = lazy(() => import('./pages/shop-page/shop-page'));
+const CheckoutPage = lazy(() => import('./pages/checkout-page/checkout-page'));
+const ProfilePage = lazy(() => import('./pages/profile-page/profile-page'));
+const ContactPage = lazy(() => import('./pages/contact-page/contact-page'));
+const ProductDetailPage = lazy(() => import('./pages/product-detail-page/product-detail-page'));
+const AuthPage = lazy(() => import('./pages/auth-page/auth-page'));
 
 export class App extends Component {
   firebaseAuthUnsubscribe = null;
@@ -26,19 +30,14 @@ export class App extends Component {
     this.firebaseAuthUnsubscribe = auth.onAuthStateChanged(async (userInfo) => {
       if (userInfo) {
         try {
-          const userRef = await createUserProfileDocument(userInfo);
-
-          userRef.onSnapshot((snapshot) => {
-            this.props.setCurrentUser({
-              id: snapshot.id,
-              ...snapshot.data(),
-            });
-          });
+          const currentUser = await createUserProfileDocument(userInfo);
+          this.props.setCurrentUser(currentUser);
+          this.props.fetchCartItemsStartAsync();
         } catch (error) {
-          console.log(error);
+          this.props.setUserAsyncErrorMessage(error.message);
         }
       } else {
-        this.props.setCurrentUser(userInfo);
+        this.props.setCurrentUser(null);
       }
     });
 
@@ -62,21 +61,33 @@ export class App extends Component {
     return (
       <>
         <Header />
-        <div className='main-content-wrapper'>
-          <Switch>
-            <Route exact path='/' component={HomePage} />
-            <Route exact path='/shop/:product' component={ShopPage} />
-            <Route exact path='/profile' component={ProfilePage} />
-            <Route exact path='/checkout' component={CheckoutPage} />
-            <Route exact path='/contact' component={ContactPage} />
-            <Route exact path='/product-detail/:productId' component={ProductDetailPage} />
-            <Route
-              exact
-              path='/auth/:mode'
-              render={() => (this.props.currentUser ? <Redirect to='/' /> : <AuthPage />)}
-            />
-          </Switch>
-        </div>
+        <ErrorBoundary>
+          <div className='main-content-wrapper'>
+            <Switch>
+              <Suspense fallback={<Loader />}>
+                <Route exact path='/' component={HomePage} />
+                <Route exact path='/shop/:product' component={ShopPage} />
+                <Route exact path='/contact' component={ContactPage} />
+                <Route exact path='/product-detail/:productId' component={ProductDetailPage} />
+                <Route
+                  exact
+                  path='/profile'
+                  render={() => (this.props.currentUser ? <ProfilePage /> : <Redirect to='/auth/sign-in' />)}
+                />
+                <Route
+                  exact
+                  path='/checkout'
+                  render={() => (this.props.currentUser ? <CheckoutPage /> : <Redirect to='/auth/sign-in' />)}
+                />
+                <Route
+                  exact
+                  path='/auth/:mode'
+                  render={() => (this.props.currentUser ? <Redirect to='/' /> : <AuthPage />)}
+                />
+              </Suspense>
+            </Switch>
+          </div>
+        </ErrorBoundary>
       </>
     );
   }
@@ -89,9 +100,11 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  setCurrentUser: (currentUser) => dispatch(asyncUserRequestSuccess(currentUser)),
+  setUserAsyncErrorMessage: (errorMessage) => dispatch(asyncUserRequestFailure(errorMessage)),
   closeCartDropdown: () => dispatch(closeCartDropdown()),
   closeUserDropdown: () => dispatch(closeUserDropdown()),
+  fetchCartItemsStartAsync: () => dispatch(fetchCartItemsStartAsync()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

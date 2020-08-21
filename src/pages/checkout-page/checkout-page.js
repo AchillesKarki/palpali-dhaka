@@ -1,24 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { selectCartItems, selectTotalCartItems, selectTotalCartAmount } from '../../redux/cart/cart.selector';
+import {
+  selectIsPaymentLoading,
+  selectSuccessMessage,
+  selectErrorMessage,
+  selectClosePaymentModal,
+} from '../../redux/payment/payment.selector';
+import { clearMessage } from '../../redux/payment/payment.action';
+import {
+  selectUserCart,
+  selectTotalCartItems,
+  selectTotalCartAmount,
+  selectIsCartLoading,
+} from '../../redux/cart/cart.selector';
 
 import './checkout-page.scss';
 import CheckoutItem from '../../components/checkout-item/checkout-item';
 import ModalStripe from '../../components/modal-stripe/modal-stripe';
-import PaymentPayPal from '../../components/payment-paypal/payment-paypal';
+import ModalPayPal from '../../components/modal-paypal/modal-paypal';
+import withSpinner from '../../hoc/withSpinner/with-spinner';
+import withAlert from '../../hoc/withAlert/withAlert';
 
-const CheckoutPage = ({ cartItems, totalCartItems, totalCartAmount }) => {
-  const [modalIsOpen, setIsOpen] = useState(false);
+const CheckoutPage = ({ userCart: { cartItems }, totalCartItems, totalCartAmount, closePaymentModal }) => {
+  const [stripeModalIsOpen, setStripeIsOpen] = useState(false);
+  const [payPalModalIsOpen, setPayPalIsOpen] = useState(false);
 
-  const openModal = () => {
-    setIsOpen(true);
+  const openModal = (modalName) => {
+    modalName === 'stripe' ? setStripeIsOpen(true) : setPayPalIsOpen(true);
   };
 
-  const closeModal = () => {
-    setIsOpen(false);
+  const closeModal = (modalName) => {
+    if (modalName) {
+      modalName === 'stripe' ? setStripeIsOpen(false) : setPayPalIsOpen(false);
+    } else {
+      setStripeIsOpen(false);
+      setPayPalIsOpen(false);
+    }
   };
+
+  useEffect(() => {
+    if (closePaymentModal) {
+      closeModal();
+    }
+  }, [closePaymentModal]);
+
   return (
     <div className='checkout-page'>
       <div className='checkout-page-table'>
@@ -50,8 +77,11 @@ const CheckoutPage = ({ cartItems, totalCartItems, totalCartAmount }) => {
             </div>
           )}
         </div>
+        <div className='warning-label'>
+          Please, do not use your original transaction details. Test account credentials are provided with respective
+          payment gateway.
+        </div>
         <div className='checkout-page-table-footer'>
-          <div></div>
           <div className='footer-label'>
             Subtotal ({totalCartItems} items):
             <span className='price'>${totalCartAmount}</span>
@@ -61,24 +91,45 @@ const CheckoutPage = ({ cartItems, totalCartItems, totalCartAmount }) => {
       <div className='checkout-page-payment-options-text'>Payment Options:</div>
       <div className='checkout-page-payment-button-wrapper'>
         <button
-          className='btn btn-primary btn-no-animation'
+          className='btn btn-primary'
           disabled={!totalCartItems}
           title={totalCartItems ? 'Proceed to Checkout With Stripe' : 'No Items In The Cart'}
-          onClick={openModal}
+          onClick={() => openModal('stripe')}
         >
           Stripe
         </button>
-        <PaymentPayPal />
+        <button
+          className='btn btn-secondary'
+          disabled={!totalCartItems}
+          title={totalCartItems ? 'Proceed to Checkout With Stripe' : 'No Items In The Cart'}
+          onClick={() => openModal('paypal')}
+        >
+          PayPal
+        </button>
       </div>
-      <ModalStripe modalIsOpen={modalIsOpen} closeModal={closeModal} />
+      <ModalStripe modalIsOpen={stripeModalIsOpen} closeModal={() => closeModal('stripe')} />
+      <ModalPayPal
+        totalCartAmount={totalCartAmount}
+        modalIsOpen={payPalModalIsOpen}
+        closeModal={() => closeModal('paypal')}
+      />
     </div>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
-  cartItems: selectCartItems,
+  userCart: selectUserCart,
   totalCartItems: selectTotalCartItems,
   totalCartAmount: selectTotalCartAmount,
+  isCartLoading: selectIsCartLoading,
+  isPaymentLoading: selectIsPaymentLoading,
+  successMessage: selectSuccessMessage,
+  errorMessage: selectErrorMessage,
+  closePaymentModal: selectClosePaymentModal,
 });
 
-export default connect(mapStateToProps)(CheckoutPage);
+const mapDispatchToProps = (dispatch) => ({
+  clearMessage: () => dispatch(clearMessage()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withAlert(withSpinner(CheckoutPage)));

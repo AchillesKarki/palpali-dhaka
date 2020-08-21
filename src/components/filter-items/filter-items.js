@@ -52,7 +52,7 @@ const FilterItems = ({ productType, productsFilters, setProductsFilters, getShop
           setProductsFilters={(filterType, filterValue) => setProductsFilters(filterType, filterValue)}
         />
       </div>
-      <button className='btn btn-secondary btn-medium' onClick={handleApplyFilters}>
+      <button className='btn btn-secondary btn-small' onClick={handleApplyFilters}>
         Apply Filters
       </button>
     </div>

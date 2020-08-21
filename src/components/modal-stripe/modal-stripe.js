@@ -3,8 +3,6 @@ import ReactModal from 'react-modal';
 
 import PaymentStripe from '../payment-stripe/payment-stripe';
 
-import './modal-stripe.scss';
-
 ReactModal.setAppElement('#root');
 
 const ModalStripe = ({ modalIsOpen, closeModal }) => {

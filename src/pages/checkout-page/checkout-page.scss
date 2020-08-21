@@ -73,10 +73,20 @@
       }
     }
 
+    .warning-label {
+      text-align: center;
+      color: #e71d36;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 10px;
+      background-color: $color-grey-2;
+      text-transform: uppercase;
+    }
+
     .checkout-page-table-footer {
       padding: 12px 0;
-      border-top: 1px solid $color-primary;
       display: flex;
+      border-top: 1px solid $color-primary;
 
       .footer-label {
         font-size: 18px;

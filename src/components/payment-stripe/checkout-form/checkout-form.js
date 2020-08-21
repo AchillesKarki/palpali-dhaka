@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectTotalCartAmount } from '../../../redux/cart/cart.selector';
 
 import './checkout-form.scss';
+import { handleStripePaymentStartAsync } from '../../../redux/payment/payment.action';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -25,9 +26,9 @@ const CARD_ELEMENT_OPTIONS = {
   },
 };
 
-const CheckoutForm = ({ closeStripePaymentModal, totalCartAmount }) => {
+const CheckoutForm = ({ closeStripePaymentModal, totalCartAmount, handleStripePayment }) => {
   const [error, setError] = useState(null);
-  const stripe = useStripe();
+  const stripeInstance = useStripe();
   const elements = useElements();
 
   /**
@@ -48,14 +49,8 @@ const CheckoutForm = ({ closeStripePaymentModal, totalCartAmount }) => {
    */
   const handleStripeFormSubmit = async (event) => {
     event.preventDefault();
-    const card = elements.getElement(CardElement);
-    const result = await stripe.createToken(card);
-    if (result.error) {
-      setError(result.error.message);
-    } else {
-      setError(null);
-      stripeTokenHandler(result.token);
-    }
+    await handleStripePayment(elements.getElement(CardElement), stripeInstance);
+    closeStripePaymentModal();
   };
 
   return (
@@ -63,13 +58,18 @@ const CheckoutForm = ({ closeStripePaymentModal, totalCartAmount }) => {
       <label htmlFor='card-element' className='stripe-checkout-form-label'>
         Credit or Debit Card
       </label>
+      <p className='demo-card-info'>
+        *Use <span className='card-details'> 4242-4242-4242-4242 | 04/24 | 444 | 44444 </span> as card details.
+      </p>
       <CardElement
         id='card-element'
         options={CARD_ELEMENT_OPTIONS}
         onChange={handleChange}
         className='stripe-checkout-form-card-element'
       />
-      <div className='stripe-checkout-form-address'>*Your product will be delivered to your given profile address.</div>
+      <div className='stripe-checkout-form-address'>
+        *Your orders will be delivered to your given profile delivery address.
+      </div>
       {error && (
         <div className='card-errors' role='alert'>
           {error}
@@ -79,7 +79,7 @@ const CheckoutForm = ({ closeStripePaymentModal, totalCartAmount }) => {
         <button type='submit' className='btn btn-primary btn-medium'>
           Pay ${totalCartAmount}
         </button>
-        <button type='button' className='btn btn-outline btn-medium' onClick={closeStripePaymentModal}>
+        <button type='button' className='btn btn-outline-secondary btn-medium' onClick={closeStripePaymentModal}>
           Close
         </button>
       </div>
@@ -87,22 +87,12 @@ const CheckoutForm = ({ closeStripePaymentModal, totalCartAmount }) => {
   );
 };
 
-// POST the token ID to your backend.
-// remove after redux implementation
-async function stripeTokenHandler(token) {
-  const response = await fetch('/charge', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ token: token.id }),
-  });
-
-  return response.json();
-}
-
 const mapStateToProps = createStructuredSelector({
   totalCartAmount: selectTotalCartAmount,
 });
 
-export default connect(mapStateToProps)(CheckoutForm);
+const mapDispatchToProps = (dispatch) => ({
+  handleStripePayment: (cardInfo, stripeInstance) => dispatch(handleStripePaymentStartAsync(cardInfo, stripeInstance)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

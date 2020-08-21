@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { createStructuredSelector } from 'reselect';
 
 import { PRODUCTS_CATEGORY } from '../../config';
-import { selectShopProducts, selectIsLoading } from '../../redux/shop/shop.selector';
+
 import { fetchProductsStartAsync, clearProductsFilters } from '../../redux/shop/shop.action';
 
 import CollectionPreview from '../../components/collection-preview/collection-preview';
@@ -36,6 +34,7 @@ export class ProductsTab extends Component {
    */
   handleTabChange = (index, lastIndex, e) => {
     let productType = this.props.product;
+
     if (e) {
       productType = e.target.innerText.toLowerCase();
     }
@@ -69,9 +68,7 @@ export class ProductsTab extends Component {
           </div>
           <div className='collection-section'>
             {PRODUCTS_CATEGORY.map((category) => (
-              <TabPanel key={category.index}>
-                {products && <CollectionPreview products={products} isLoading={this.props.isLoading} />}
-              </TabPanel>
+              <TabPanel key={category.index}>{products && <CollectionPreview products={products} />}</TabPanel>
             ))}
           </div>
         </div>
@@ -80,14 +77,9 @@ export class ProductsTab extends Component {
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  products: selectShopProducts,
-  isLoading: selectIsLoading,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   getShopProducts: (productType) => dispatch(fetchProductsStartAsync(productType)),
   clearProductsFilters: () => dispatch(clearProductsFilters()),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductsTab));
+export default connect(null, mapDispatchToProps)(ProductsTab);

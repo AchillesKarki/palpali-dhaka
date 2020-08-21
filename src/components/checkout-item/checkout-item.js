@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { addCartItem, removeCartItem, clearCartItem } from '../../redux/cart/cart.action';
+import { addCartItemStartAsync, removeCartItemStartAsync, clearCartItemStartAsync } from '../../redux/cart/cart.action';
 
 import StarRatings from '../star-ratings/star-ratings';
 import './checkout-item.scss';
@@ -52,9 +52,9 @@ const CheckoutItem = ({ cartItem, addCartItem, removeCartItem, clearCartItem, hi
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addCartItem: (item) => dispatch(addCartItem(item)),
-  removeCartItem: (item) => dispatch(removeCartItem(item)),
-  clearCartItem: (cartItem) => dispatch(clearCartItem(cartItem)),
+  addCartItem: (item) => dispatch(addCartItemStartAsync(item)),
+  removeCartItem: (item) => dispatch(removeCartItemStartAsync(item)),
+  clearCartItem: (cartItem) => dispatch(clearCartItemStartAsync(cartItem)),
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(CheckoutItem));

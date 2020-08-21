@@ -1,9 +1,12 @@
 import { CartActionTypes } from './cart-types';
-import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../../utility/utils';
 
 const INITIAL_STATE = {
   toggleCart: false,
-  cartItems: [],
+  isCartLoading: false,
+  errorMessage: null,
+  userCart: {
+    cartItems: [],
+  },
 };
 
 const cartReducer = (state = INITIAL_STATE, action) => {
@@ -20,22 +23,32 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         toggleCart: !state.toggleCart,
       };
 
-    case CartActionTypes.ADD_CART_ITEM:
+    case CartActionTypes.CLEAR_WHOLE_CART:
       return {
         ...state,
-        cartItems: addItemToCart(state.cartItems, action.payload),
+        userCart: {
+          cartItems: [],
+        },
       };
 
-    case CartActionTypes.REMOVE_CART_ITEM:
+    case CartActionTypes.ASYNC_CART_REQUEST_START:
       return {
         ...state,
-        cartItems: removeItemFromCart(state.cartItems, action.payload),
+        isCartLoading: true,
       };
 
-    case CartActionTypes.CLEAR_CART_ITEM:
+    case CartActionTypes.ASYNC_CART_REQUEST_SUCCESS:
       return {
         ...state,
-        cartItems: clearItemFromCart(state.cartItems, action.payload),
+        isCartLoading: false,
+        userCart: action.payload,
+      };
+
+    case CartActionTypes.ASYNC_CART_REQUEST_FAILURE:
+      return {
+        ...state,
+        isCartLoading: false,
+        errorMessage: action.payload,
       };
 
     default:

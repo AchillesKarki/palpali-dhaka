@@ -3,13 +3,13 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { selectCartItems } from '../../redux/cart/cart.selector';
+import { selectUserCart } from '../../redux/cart/cart.selector';
 
 import CartItem from '../cart-item/cart-item';
 
 import './dropdown-cart.scss';
 
-const DropdownCart = ({ cartItems, history }) => {
+const DropdownCart = ({ userCart: { cartItems }, history }) => {
   return (
     <div className='dropdown padded'>
       <div className='dropdown-items-wrapper cart-items-wrapper'>
@@ -31,7 +31,7 @@ const DropdownCart = ({ cartItems, history }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  cartItems: selectCartItems,
+  userCart: selectUserCart,
 });
 
 export default withRouter(connect(mapStateToProps)(DropdownCart));
