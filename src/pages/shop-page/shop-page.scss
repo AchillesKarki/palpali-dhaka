@@ -1,0 +1,13 @@
+@import "../../styles/variables";
+
+.shop-page {
+  position: relative;
+
+  .not-signed-in-text {
+    position: absolute;
+    font-size: 12px;
+    color: $color-warning;
+    top: 15px;
+    right: 0;
+  }
+}

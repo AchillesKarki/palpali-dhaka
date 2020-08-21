@@ -37,7 +37,12 @@
     background-color: $color-grey-2;
     z-index: 1;
 
+    .name {
+      flex: 3;
+    }
+
     .price-and-rating {
+      flex: 2;
       display: flex;
       flex-direction: column;
       justify-content: space-between;

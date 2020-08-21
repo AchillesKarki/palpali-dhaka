@@ -1,32 +1,19 @@
 import { fetchProductsFromDatabase } from '../../utility/shop-utils';
 import { ShopActionTypes } from './shop.types';
 
-export const fetchProductsStart = () => ({
-  type: ShopActionTypes.FETCH_SHOP_PRODUCTS_START,
+export const asyncShopRequestStart = () => ({
+  type: ShopActionTypes.ASYNC_SHOP_REQUEST_START,
 });
 
-export const fetchProductsSuccess = (products) => ({
-  type: ShopActionTypes.FETCH_SHOP_PRODUCTS_SUCCESS,
+export const asyncShopRequestSuccess = (products) => ({
+  type: ShopActionTypes.ASYNC_SHOP_REQUEST_SUCCESS,
   payload: products,
 });
 
-export const fetchProductsFailure = (errorMessage) => ({
-  type: ShopActionTypes.FETCH_SHOP_PRODUCTS_FAILURE,
+export const asyncShopRequestFailure = (errorMessage) => ({
+  type: ShopActionTypes.ASYNC_SHOP_REQUEST_FAILURE,
   payload: errorMessage,
 });
-
-export const fetchProductsStartAsync = (productType, filters = null) => {
-  return async (dispatch) => {
-    dispatch(fetchProductsStart());
-    const apiResponse = await fetchProductsFromDatabase(productType, filters);
-
-    if (apiResponse.type === 'success') {
-      dispatch(fetchProductsSuccess(apiResponse.products));
-    } else {
-      dispatch(fetchProductsFailure(apiResponse.errorMessage));
-    }
-  };
-};
 
 export const setProductsFilters = (filterType, filterValue) => ({
   type: ShopActionTypes.SET_PRODUCTS_FILTERS,
@@ -36,3 +23,16 @@ export const setProductsFilters = (filterType, filterValue) => ({
 export const clearProductsFilters = () => ({
   type: ShopActionTypes.CLEAR_PRODUCTS_FILTERS,
 });
+
+export const fetchProductsStartAsync = (productType, filters = null) => {
+  return async (dispatch) => {
+    dispatch(asyncShopRequestStart());
+    const apiResponse = await fetchProductsFromDatabase(productType, filters);
+
+    if (apiResponse.type === 'success') {
+      dispatch(asyncShopRequestSuccess(apiResponse.products));
+    } else {
+      dispatch(asyncShopRequestFailure(apiResponse.errorMessage));
+    }
+  };
+};

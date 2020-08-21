@@ -2,7 +2,16 @@
  * App Configurations
  */
 
-export const REST_API_URL = 'https://firestore.googleapis.com/v1/projects/palpali-dhaka/databases/(default)/documents';
+export const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyDEvpK7Z9Iuh8vIcWohDhKpsAIo4cgMMZA',
+  authDomain: 'palpali-dhaka.firebaseapp.com',
+  databaseURL: 'https://palpali-dhaka.firebaseio.com',
+  projectId: 'palpali-dhaka',
+  storageBucket: 'palpali-dhaka.appspot.com',
+  messagingSenderId: '283308393287',
+  appId: '1:283308393287:web:73caf22faea4309bb00262',
+  measurementId: 'G-4BRCFDQ6DX',
+};
 
 export const PRODUCTS_CATEGORY = [
   {

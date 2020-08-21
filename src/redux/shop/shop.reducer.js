@@ -2,7 +2,7 @@ import { ShopActionTypes } from './shop.types';
 
 const INITIAL_STATE = {
   products: [],
-  isLoading: false,
+  isShopLoading: false,
   errorMessage: null,
   productsFilters: {
     price: [],
@@ -12,23 +12,23 @@ const INITIAL_STATE = {
 
 const shopReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ShopActionTypes.FETCH_SHOP_PRODUCTS_START:
+    case ShopActionTypes.ASYNC_SHOP_REQUEST_START:
       return {
         ...state,
-        isLoading: true,
+        isShopLoading: true,
       };
 
-    case ShopActionTypes.FETCH_SHOP_PRODUCTS_SUCCESS:
+    case ShopActionTypes.ASYNC_SHOP_REQUEST_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isShopLoading: false,
         products: action.payload,
       };
 
-    case ShopActionTypes.FETCH_SHOP_PRODUCTS_FAILURE:
+    case ShopActionTypes.ASYNC_SHOP_REQUEST_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        isShopLoading: false,
         errorMessage: action.payload,
       };
 

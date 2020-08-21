@@ -1,15 +1,14 @@
 import React from 'react';
-import { withRouter, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { auth } from '../../firebase/firebase.utils';
 import DropdownUser from '../dropdown-user/dropdown-user';
 import DropdownCart from '../dropdown-cart/dropdown-cart';
 
-import { toggleUserDropdown } from '../../redux/user/user.action';
+import { toggleUserDropdown, signOutStartAsync } from '../../redux/user/user.action';
 import { selectCurrentUser, selectToggleUser } from '../../redux/user/user.selector';
-import { toggleChartDropdown, closeCartDropdown } from '../../redux/cart/cart.action';
+import { toggleCartDropdown, closeCartDropdown } from '../../redux/cart/cart.action';
 import { selectToggleCart, selectTotalCartItems } from '../../redux/cart/cart.selector';
 
 import './header.scss';
@@ -17,10 +16,20 @@ import { ReactComponent as Logo } from '../../assets/icons/crown.svg';
 import { ReactComponent as UserLogo } from '../../assets/icons/user.svg';
 import { ReactComponent as CartLogo } from '../../assets/icons/shopping-cart.svg';
 
-const Header = (props) => {
+const Header = ({
+  currentUser,
+  totalCartItems,
+  toggleUser,
+  toggleCart,
+  toggleUserDropdown,
+  toggleCartDropdown,
+  signOutStartAsync,
+}) => {
+  /**
+   * handles the sign out functionality by calling the sign out action
+   */
   const handleLogout = async () => {
-    await auth.signOut();
-    props.history.push('/auth/sign-in');
+    await signOutStartAsync();
   };
 
   return (
@@ -44,16 +53,16 @@ const Header = (props) => {
             CONTACT
           </NavLink>
         </div>
-        {props.currentUser ? (
+        {currentUser ? (
           <div className='nav-items'>
             <div
-              className={`${props.toggleUser ? 'active' : null} nav-item-link user-info-wrapper user-dropdown-trigger`}
-              onClick={props.toggleUserDropdown}
+              className={`${toggleUser ? 'active' : null} nav-item-link user-info-wrapper user-dropdown-trigger`}
+              onClick={toggleUserDropdown}
             >
               <UserLogo className='user-logo user-dropdown-trigger' />
-              <span className='user-label user-dropdown-trigger'>{props.currentUser.username}</span>
+              <span className='user-label user-dropdown-trigger'>{currentUser.username}</span>
             </div>
-            {props.toggleUser && <DropdownUser handleLogout={handleLogout} />}
+            {toggleUser && <DropdownUser handleLogout={handleLogout} />}
           </div>
         ) : (
           <div className='nav-items'>
@@ -64,13 +73,13 @@ const Header = (props) => {
         )}
         <div className='nav-items'>
           <div
-            className={`${props.toggleCart ? 'active' : null} nav-item-link cart-info-wrapper cart-dropdown-trigger`}
-            onClick={props.toggleChartDropdown}
+            className={`${toggleCart ? 'active' : null} nav-item-link cart-info-wrapper cart-dropdown-trigger`}
+            onClick={toggleCartDropdown}
           >
             <CartLogo className='cart-logo cart-dropdown-trigger' />
-            <span className='cart-price cart-dropdown-trigger'>{props.totalCartItems}</span>
+            <span className='cart-price cart-dropdown-trigger'>{totalCartItems}</span>
           </div>
-          {props.toggleCart && <DropdownCart />}
+          {toggleCart && <DropdownCart />}
         </div>
       </nav>
     </div>
@@ -86,8 +95,9 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
   toggleUserDropdown: () => dispatch(toggleUserDropdown()),
-  toggleChartDropdown: () => dispatch(toggleChartDropdown()),
+  toggleCartDropdown: () => dispatch(toggleCartDropdown()),
   closeCartDropdown: () => dispatch(closeCartDropdown()),
+  signOutStartAsync: () => dispatch(signOutStartAsync()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

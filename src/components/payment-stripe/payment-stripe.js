@@ -22,5 +22,3 @@ const PaymentStripe = ({ closeStripePaymentModal }) => {
 };
 
 export default PaymentStripe;
-
-// implement payment redux

@@ -1,7 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
+import { clearMessage } from '../../redux/user/user.action';
+import { selectIsUserLoading, selectSuccessMessage, selectErrorMessage } from '../../redux/user/user.selector';
 import './auth-page.scss';
+
+import withSpinner from '../../hoc/withSpinner/with-spinner';
+import withAlert from '../../hoc/withAlert/withAlert';
 
 import SignIn from '../../components/sign-in/sign-in';
 import SignUp from '../../components/sign-up/sign-up';
@@ -17,4 +24,14 @@ const AuthPage = ({ match }) => {
   );
 };
 
-export default withRouter(AuthPage);
+const mapStateToProps = createStructuredSelector({
+  isUserLoading: selectIsUserLoading,
+  successMessage: selectSuccessMessage,
+  errorMessage: selectErrorMessage,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  clearMessage: () => dispatch(clearMessage()),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withAlert(withSpinner(AuthPage))));

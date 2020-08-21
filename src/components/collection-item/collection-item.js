@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
-import { addCartItem } from '../../redux/cart/cart.action';
+import { addCartItemStartAsync } from '../../redux/cart/cart.action';
+import { selectCurrentUser } from '../../redux/user/user.selector';
 
 import StarRatings from '../star-ratings/star-ratings';
 import './collection-item.scss';
 
-const CollectionItem = ({ cartItem, addCartItem, history }) => {
+const CollectionItem = ({ currentUser, cartItem, addCartItem, history }) => {
   const { id, name, price, imageUrl } = cartItem;
 
   /**
@@ -38,7 +40,13 @@ const CollectionItem = ({ cartItem, addCartItem, history }) => {
         <button type='button' className='btn btn-secondary btn-small' onClick={handleItemClick}>
           Product Details
         </button>
-        <button type='button' className='btn btn-primary btn-small' onClick={() => addCartItem(cartItem)}>
+        <button
+          title={currentUser ? null : 'Please sign in to use the cart!'}
+          disabled={!currentUser}
+          type='button'
+          className='btn btn-primary btn-small'
+          onClick={() => addCartItem(cartItem)}
+        >
           Add to Cart
         </button>
       </div>
@@ -46,8 +54,12 @@ const CollectionItem = ({ cartItem, addCartItem, history }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addCartItem: (item) => dispatch(addCartItem(item)),
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(CollectionItem));
+const mapDispatchToProps = (dispatch) => ({
+  addCartItem: (item) => dispatch(addCartItemStartAsync(item)),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CollectionItem));

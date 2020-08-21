@@ -1,4 +1,11 @@
-.paypal-button[disabled] {
-  cursor: not-allowed !important;
-  pointer-events: none !important;
+.paypal-button {
+  display: flex;
+  .paypal-button[disabled] {
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+  }
+
+  .paypal-cred {
+    margin-left: 10px;
+  }
 }

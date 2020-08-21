@@ -2,15 +2,26 @@ import { UserActionTypes } from './user.types';
 
 const INITIAL_STATE = {
   currentUser: null,
+  isUserLoading: false,
+  errorMessage: null,
+  successMessage: null,
   toggleUser: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case UserActionTypes.SET_CURRENT_USER:
+    case UserActionTypes.SET_SUCCESS_MESSAGE:
       return {
         ...state,
-        currentUser: action.payload,
+        isUserLoading: false,
+        successMessage: action.payload,
+      };
+
+    case UserActionTypes.CLEAR_MESSAGE:
+      return {
+        ...state,
+        successMessage: null,
+        errorMessage: null,
       };
 
     case UserActionTypes.CLOSE_USER_DROPDOWN:
@@ -23,6 +34,26 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         toggleUser: !state.toggleUser,
+      };
+
+    case UserActionTypes.ASYNC_USER_REQUEST_START:
+      return {
+        ...state,
+        isUserLoading: true,
+      };
+
+    case UserActionTypes.ASYNC_USER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        isUserLoading: false,
+        currentUser: action.payload,
+      };
+
+    case UserActionTypes.ASYNC_USER_REQUEST_FAILURE:
+      return {
+        ...state,
+        isUserLoading: false,
+        errorMessage: action.payload,
       };
 
     default:

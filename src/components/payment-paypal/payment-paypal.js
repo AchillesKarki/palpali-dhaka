@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import { asyncPaymentRequestFailure, approvePayPalOrderStartAsync } from '../../redux/payment/payment.action';
 import { selectTotalCartAmount } from '../../redux/cart/cart.selector';
 
 import './payment-paypal.scss';
 
 let PayPalButton = window.paypal && window.paypal.Buttons.driver('react', { React, ReactDOM });
 
-const PaymentPayPal = ({ totalCartAmount }) => {
-  // eslint-disable-next-line no-unused-vars
-  const [paidFor, setPaidFor] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState(null);
-
+const PaymentPayPal = ({ totalCartAmount, approvePayPalOrder, setErrorMessage }) => {
   const buttonStyle = {
     layout: 'horizontal',
     label: 'pay',
@@ -22,7 +18,12 @@ const PaymentPayPal = ({ totalCartAmount }) => {
     height: 51,
   };
 
-  const createOrder = (data, actions) => {
+  /**
+   * handles the create order functionality
+   * @param {Object} data the data
+   * @param {Object} actions the actions
+   */
+  const createPayPalOrder = (data, actions) => {
     if (totalCartAmount) {
       return actions.order.create({
         purchase_units: [
@@ -35,32 +36,17 @@ const PaymentPayPal = ({ totalCartAmount }) => {
         ],
       });
     } else {
-      console.log('No Items');
+      setErrorMessage("There aren't any items in your cart.");
     }
   };
 
-  const onApprove = async (data, actions) => {
-    const order = await actions.order.capture();
-    setPaidFor(true);
-    console.log(order);
-  };
-
-  const onError = (err) => {
-    setError(err);
-    console.error(err);
-  };
-
   return (
-    <div
-      className='paypal-button'
-      disabled={!totalCartAmount}
-      title={totalCartAmount ? 'Proceed to Checkout With PayPal' : 'No Items In The Cart'}
-    >
+    <div className='paypal-button'>
       <PayPalButton
         style={buttonStyle}
-        createOrder={(data, actions) => createOrder(data, actions)}
-        onApprove={(data, actions) => onApprove(data, actions)}
-        onError={(err) => onError(err)}
+        createOrder={(data, actions) => createPayPalOrder(data, actions)}
+        onApprove={(data, actions) => approvePayPalOrder(data, actions)}
+        onError={(err) => setErrorMessage(err)}
       />
     </div>
   );
@@ -70,4 +56,9 @@ const mapStateToProps = createStructuredSelector({
   totalCartAmount: selectTotalCartAmount,
 });
 
-export default connect(mapStateToProps)(PaymentPayPal);
+const mapDispatchToProps = (dispatch) => ({
+  approvePayPalOrder: (data, actions) => dispatch(approvePayPalOrderStartAsync(data, actions)),
+  setErrorMessage: (errorMessage) => dispatch(asyncPaymentRequestFailure(errorMessage)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentPayPal);

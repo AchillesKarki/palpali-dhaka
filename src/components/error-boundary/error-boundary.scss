@@ -1,0 +1,21 @@
+.error-boundary-wrapper {
+  margin-top: 20px;
+  text-align: center;
+  height: calc(100vh - 168px);
+
+  .error-image {
+    height: 85%;
+  }
+
+  .error-text {
+    text-transform: uppercase;
+    margin: 25px 0;
+    font-size: 32px;
+    font-weight: 600;
+
+    .try-again-text {
+      display: block;
+      font-size: 28px;
+    }
+  }
+}
