@@ -78,8 +78,8 @@ const CheckoutPage = ({ userCart: { cartItems }, totalCartItems, totalCartAmount
           )}
         </div>
         <div className='warning-label'>
-          Please, do not use your original transaction details. Test account credentials are provided with respective
-          payment gateway.
+          Please, do not use your original transaction details.
+          <br /> Test account credentials are provided with respective payment gateway.
         </div>
         <div className='checkout-page-table-footer'>
           <div className='footer-label'>
