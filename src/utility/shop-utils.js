@@ -6,13 +6,16 @@ import { firestore } from '../firebase/firebase.utils';
  * @param {Object} filters the filters
  */
 export const fetchProductsFromDatabase = async (productType, filters) => {
-  let response;
+  let response = null;
 
   try {
     let snapshot;
 
     if (!filters) {
       snapshot = await firestore.collection('products').where('type', '==', productType).get();
+    } else if (typeof filters === 'string' && filters === 'newArrival') {
+      snapshot = await firestore.collection('products').where('newArrival', '==', true).get();
+      response = { newArrival: true };
     } else {
       let query = firestore.collection('products').where('type', '==', productType);
       filters.forEach((filter) => {
@@ -26,6 +29,7 @@ export const fetchProductsFromDatabase = async (productType, filters) => {
       });
 
       snapshot = await query.get();
+      response = { newArrival: false };
     }
 
     const products = snapshot.docs.map((doc) => ({
@@ -33,7 +37,32 @@ export const fetchProductsFromDatabase = async (productType, filters) => {
       ...doc.data(),
     }));
 
-    response = { type: 'success', products };
+    response = { ...response, type: 'success', products };
+  } catch (error) {
+    response = { type: 'error', errorMessage: error.message };
+  }
+
+  return response;
+};
+
+/**
+ * fetches the single product from the database, according to product id
+ * @param {string} productId the product id
+ */
+export const fetchSingleProductFromDatabase = async (productId) => {
+  let response = null;
+
+  try {
+    const snapshot = await firestore.collection('products').doc(productId).get();
+
+    console.log(snapshot);
+
+    const product = {
+      id: snapshot.id,
+      ...snapshot.data(),
+    };
+
+    response = { type: 'success', product };
   } catch (error) {
     response = { type: 'error', errorMessage: error.message };
   }

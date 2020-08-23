@@ -2,6 +2,8 @@ import { ShopActionTypes } from './shop.types';
 
 const INITIAL_STATE = {
   products: [],
+  newProducts: [],
+  singleProduct: null,
   isShopLoading: false,
   errorMessage: null,
   productsFilters: {
@@ -19,10 +21,18 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ShopActionTypes.ASYNC_SHOP_REQUEST_SUCCESS:
+      const productKey = action.payload.newArrival ? 'newProducts' : 'products';
       return {
         ...state,
         isShopLoading: false,
-        products: action.payload,
+        [productKey]: action.payload.products,
+      };
+
+    case ShopActionTypes.ASYNC_SINGLE_PRODUCT_SHOP_REQUEST_SUCCESS:
+      return {
+        ...state,
+        isShopLoading: false,
+        singleProduct: action.payload,
       };
 
     case ShopActionTypes.ASYNC_SHOP_REQUEST_FAILURE:

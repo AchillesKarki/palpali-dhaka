@@ -50,7 +50,6 @@ const CheckoutForm = ({ closeStripePaymentModal, totalCartAmount, handleStripePa
   const handleStripeFormSubmit = async (event) => {
     event.preventDefault();
     await handleStripePayment(elements.getElement(CardElement), stripeInstance);
-    closeStripePaymentModal();
   };
 
   return (
