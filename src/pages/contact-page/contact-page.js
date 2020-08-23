@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import './contact-page.scss';
 import ModalAlert from '../../components/modal-alert/modal-alert';
+import Loader from '../../components/loader/loader';
+
+import './contact-page.scss';
 
 const ContactPageSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -21,6 +23,7 @@ const ContactPageSchema = Yup.object().shape({
 const ContactPage = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   const encode = (data) => {
     return Object.keys(data)
@@ -34,6 +37,7 @@ const ContactPage = () => {
 
   return (
     <div className='contact-page'>
+      {isLoading ? <Loader /> : null}
       <h2>Contact Us</h2>
       <Formik
         initialValues={{
@@ -44,6 +48,7 @@ const ContactPage = () => {
         }}
         validationSchema={ContactPageSchema}
         onSubmit={async (values) => {
+          setLoading(true);
           try {
             await fetch('/', {
               method: 'POST',
@@ -55,12 +60,14 @@ const ContactPage = () => {
               type: 'Success',
               message: 'Thank You for your response. We will soon get back to you.',
             });
+            setLoading(false);
             setIsOpen(true);
           } catch (error) {
             setAlert({
               type: 'Error',
               message: error.message,
             });
+            setLoading(false);
             setIsOpen(true);
           }
         }}
