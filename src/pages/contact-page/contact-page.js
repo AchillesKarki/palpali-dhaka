@@ -47,7 +47,7 @@ const ContactPage = () => {
           message: '',
         }}
         validationSchema={ContactPageSchema}
-        onSubmit={async (values) => {
+        onSubmit={async (values, { resetForm }) => {
           setLoading(true);
           try {
             await fetch('/', {
@@ -62,6 +62,7 @@ const ContactPage = () => {
             });
             setLoading(false);
             setIsOpen(true);
+            resetForm({});
           } catch (error) {
             setAlert({
               type: 'Error',
