@@ -1,4 +1,4 @@
-import { approvePayPalOrder, handleStripePayment } from '../../utility/payment-utils';
+import { approvePayPalOrder, handleStripePayment, fetchUserOrdersFromDatabase } from '../../utility/payment-utils';
 
 import { PaymentActionTypes } from './payment.types';
 import { clearWholeCartStartAsync } from '../cart/cart.action';
@@ -60,6 +60,19 @@ export const approvePayPalOrderStartAsync = (data, actions) => {
       dispatch(closePaymentModal());
       dispatch(clearWholeCartStartAsync());
       dispatch(setSuccessMessage('THANK YOU for shopping wih us. Your orders will be delivered soon!'));
+    } else {
+      dispatch(asyncPaymentRequestFailure(apiResponse.errorMessage));
+    }
+  };
+};
+
+export const fetchUserOrderStartAsync = () => {
+  return async (dispatch) => {
+    dispatch(asyncPaymentRequestStart());
+    const apiResponse = await fetchUserOrdersFromDatabase();
+
+    if (apiResponse.type === 'success') {
+      dispatch(asyncPaymentRequestSuccess(apiResponse.userOrders));
     } else {
       dispatch(asyncPaymentRequestFailure(apiResponse.errorMessage));
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 
-import PaymentPayPal from '../payment-paypal/payment-paypal';
+import PaymentPayPal from '../../payments/payment-paypal/payment-paypal';
 
 ReactModal.setAppElement('#root');
 

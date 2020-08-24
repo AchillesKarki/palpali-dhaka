@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import ModalAlert from '../../components/modal-alert/modal-alert';
+import ModalAlert from '../../components/modals/modal-alert/modal-alert';
 import Loader from '../../components/loader/loader';
 
 import './contact-page.scss';
@@ -38,7 +38,7 @@ const ContactPage = () => {
   return (
     <div className='contact-page'>
       {isLoading ? <Loader /> : null}
-      <h2>Contact Us</h2>
+      <h2 className='header-text'>Contact Us</h2>
       <Formik
         initialValues={{
           firstName: '',

@@ -1,4 +1,18 @@
 // css code for forms
+.name-wrapper {
+  display: flex;
+  align-items: center;
+  margin: -25px 0;
+
+  .form-group {
+    width: 50%;
+
+    &:last-child {
+      margin-left: 30px;
+    }
+  }
+}
+
 .form-group {
   position: relative;
   margin: 25px 0;
@@ -32,6 +46,10 @@
 
   input[type="password"] {
     letter-spacing: 0.3em;
+  }
+
+  input[readonly] {
+    cursor: not-allowed;
   }
 
   textarea {

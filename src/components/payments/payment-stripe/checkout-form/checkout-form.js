@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { createStructuredSelector } from 'reselect';
 
-import { selectTotalCartAmount } from '../../../redux/cart/cart.selector';
+import { selectTotalCartAmount } from '../../../../redux/cart/cart.selector';
 
 import './checkout-form.scss';
-import { handleStripePaymentStartAsync } from '../../../redux/payment/payment.action';
+import { handleStripePaymentStartAsync } from '../../../../redux/payment/payment.action';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {

@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
-import { addCartItemStartAsync } from '../../redux/cart/cart.action';
+import { addCartItemStartAsync, clearMessage } from '../../redux/cart/cart.action';
 import { selectCurrentUser } from '../../redux/user/user.selector';
+import { selectErrorMessage } from '../../redux/cart/cart.selector';
 
+import withAlert from '../../hoc/withAlert/withAlert';
 import StarRatings from '../star-ratings/star-ratings';
 import './collection-item.scss';
 
@@ -56,10 +58,12 @@ const CollectionItem = ({ currentUser, cartItem, addCartItem, history }) => {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  errorMessage: selectErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addCartItem: (item) => dispatch(addCartItemStartAsync(item)),
+  clearMessage: () => dispatch(clearMessage()),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CollectionItem));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withAlert(CollectionItem)));

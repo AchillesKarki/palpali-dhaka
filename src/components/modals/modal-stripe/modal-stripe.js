@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 
-import PaymentStripe from '../payment-stripe/payment-stripe';
+import PaymentStripe from '../../payments/payment-stripe/payment-stripe';
 
 ReactModal.setAppElement('#root');
 

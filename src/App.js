@@ -74,7 +74,7 @@ export class App extends Component {
                 <Route exact path='/product-detail/:productId' component={ProductDetailPage} />
                 <Route
                   exact
-                  path='/profile'
+                  path='/profile/:entity'
                   render={() => (this.props.currentUser ? <ProfilePage /> : <Redirect to='/auth/sign-in' />)}
                 />
                 <Route

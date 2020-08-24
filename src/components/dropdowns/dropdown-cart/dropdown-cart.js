@@ -3,9 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { selectUserCart } from '../../redux/cart/cart.selector';
+import { selectUserCart } from '../../../redux/cart/cart.selector';
 
-import CartItem from '../cart-item/cart-item';
+import CartItem from '../../cart-item/cart-item';
 
 import './dropdown-cart.scss';
 

@@ -18,8 +18,8 @@ import {
 
 import './checkout-page.scss';
 import CheckoutItem from '../../components/checkout-item/checkout-item';
-import ModalStripe from '../../components/modal-stripe/modal-stripe';
-import ModalPayPal from '../../components/modal-paypal/modal-paypal';
+import ModalStripe from '../../components/modals/modal-stripe/modal-stripe';
+import ModalPayPal from '../../components/modals/modal-paypal/modal-paypal';
 import withSpinner from '../../hoc/withSpinner/with-spinner';
 import withAlert from '../../hoc/withAlert/withAlert';
 

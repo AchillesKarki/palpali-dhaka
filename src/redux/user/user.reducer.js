@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   errorMessage: null,
   successMessage: null,
   toggleUser: false,
+  closeUserModal: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -34,6 +35,18 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         toggleUser: !state.toggleUser,
+      };
+
+    case UserActionTypes.OPEN_USER_MODAL:
+      return {
+        ...state,
+        closeUserModal: false,
+      };
+
+    case UserActionTypes.CLOSE_USER_MODAL:
+      return {
+        ...state,
+        closeUserModal: true,
       };
 
     case UserActionTypes.ASYNC_USER_REQUEST_START:

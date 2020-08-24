@@ -5,10 +5,11 @@ import { createStructuredSelector } from 'reselect';
 
 import { selectIsShopLoading, selectNewShopProducts, selectSingleShopProduct } from '../../redux/shop/shop.selector';
 import { fetchSingleProductStartAsync } from '../../redux/shop/shop.action';
-import { addCartItemStartAsync } from '../../redux/cart/cart.action';
-import { selectIsCartLoading } from '../../redux/cart/cart.selector';
+import { addCartItemStartAsync, clearMessage } from '../../redux/cart/cart.action';
+import { selectIsCartLoading, selectErrorMessage } from '../../redux/cart/cart.selector';
 
 import withSpinner from '../../hoc/withSpinner/with-spinner';
+import withAlert from '../../hoc/withAlert/withAlert';
 import StarRatings from '../../components/star-ratings/star-ratings';
 import './product-detail-page.scss';
 
@@ -62,7 +63,7 @@ const ProductDetailPage = ({
                 {products.map((product) => (
                   <div key={product.id} className='content-wrap'>
                     <div className='image-holder'>
-                      <Link to={`/product-detail/${product.id}/#detail-section`}>
+                      <Link to={`/product-detail/${product.id}`}>
                         <div className='image' style={{ backgroundImage: `url(${product.imageUrl})` }}></div>
                         <button className='btn btn-primary btn-medium'>Shop now</button>
                       </Link>
@@ -85,6 +86,7 @@ const ProductDetailPage = ({
 const mapStateToProps = createStructuredSelector({
   singleProduct: selectSingleShopProduct,
   products: selectNewShopProducts,
+  errorMessage: selectErrorMessage,
   isShopLoading: selectIsShopLoading,
   isCartLoading: selectIsCartLoading,
 });
@@ -92,6 +94,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   getSingleProduct: (productId) => dispatch(fetchSingleProductStartAsync(productId)),
   addCartItem: (product) => dispatch(addCartItemStartAsync(product)),
+  clearMessage: () => dispatch(clearMessage()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withSpinner(ProductDetailPage));
+export default connect(mapStateToProps, mapDispatchToProps)(withSpinner(withAlert(ProductDetailPage)));

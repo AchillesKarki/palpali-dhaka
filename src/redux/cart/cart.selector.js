@@ -8,6 +8,8 @@ export const selectToggleCart = createSelector(CartSelector, (cart) => cart.togg
 
 export const selectIsCartLoading = createSelector(CartSelector, (cart) => cart.isCartLoading);
 
+export const selectErrorMessage = createSelector(CartSelector, (user) => user.errorMessage);
+
 export const selectTotalCartItems = createSelector(selectUserCart, (userCart) =>
   userCart.cartItems.reduce((acc, cartItem) => acc + cartItem.quantity, 0)
 );

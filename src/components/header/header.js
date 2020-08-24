@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import DropdownUser from '../dropdown-user/dropdown-user';
-import DropdownCart from '../dropdown-cart/dropdown-cart';
+import DropdownUser from '../dropdowns/dropdown-user/dropdown-user';
+import DropdownCart from '../dropdowns/dropdown-cart/dropdown-cart';
 
 import { toggleUserDropdown, signOutStartAsync } from '../../redux/user/user.action';
 import { selectCurrentUser, selectToggleUser } from '../../redux/user/user.selector';

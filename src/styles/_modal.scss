@@ -98,6 +98,14 @@
 
       &.alert-modal-body {
         text-align: center;
+
+        p {
+          margin: 0 !important;
+        }
+      }
+
+      .form-group:first-child {
+        margin-top: 10px;
       }
     }
 
@@ -126,12 +134,14 @@
   .cred-header {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
 
   .cred-info {
     display: flex;
     font-size: 12px;
+    margin-bottom: 5px;
+    margin-left: 10px;
 
     .label {
       font-weight: 600;

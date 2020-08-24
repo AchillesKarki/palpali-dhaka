@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { asyncPaymentRequestFailure, approvePayPalOrderStartAsync } from '../../redux/payment/payment.action';
-import { selectTotalCartAmount } from '../../redux/cart/cart.selector';
+import { asyncPaymentRequestFailure, approvePayPalOrderStartAsync } from '../../../redux/payment/payment.action';
+import { selectTotalCartAmount } from '../../../redux/cart/cart.selector';
 
 import './payment-paypal.scss';
 

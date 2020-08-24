@@ -29,6 +29,7 @@ const SignUp = ({ signUpWithEmailAndPassword }) => {
         }}
         validationSchema={SignUpSchema}
         onSubmit={(values) => {
+          delete values.confirmPassword;
           signUpWithEmailAndPassword(values);
         }}
       >

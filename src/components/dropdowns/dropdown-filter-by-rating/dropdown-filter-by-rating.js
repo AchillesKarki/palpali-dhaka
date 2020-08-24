@@ -1,35 +1,35 @@
 import React from 'react';
 import Select from 'react-dropdown-select';
 
-import { PRICE_TYPES } from '../../config';
+import { RATING_TYPES } from '../../../config';
 
-const DropdownFilterByPrice = ({ priceFilter, setProductsFilters }) => {
+const DropdownFilterByRating = ({ ratingFilter, setProductsFilters }) => {
   /**
    * handles the dropdown select event
    * @param {Object} e the select event
    */
   const handleSelect = (e) => {
-    setProductsFilters('price', e);
+    setProductsFilters('rating', e);
   };
 
   /**
    * handles the dropdown clear event
    */
   const clearFilter = () => {
-    setProductsFilters('price', []);
+    setProductsFilters('rating', []);
   };
 
   return (
     <>
-      <h4>Price:</h4>
+      <h4>Rating:</h4>
       <div className='dropdown-wrapper'>
         <Select
-          values={priceFilter}
-          options={PRICE_TYPES}
+          values={ratingFilter}
+          options={RATING_TYPES}
           onChange={(values) => handleSelect(values)}
           searchable={false}
         />
-        {priceFilter && priceFilter.length ? (
+        {ratingFilter && ratingFilter.length ? (
           <span className='clear-filter-button' onClick={() => clearFilter()}>
             &#10005;
           </span>
@@ -39,4 +39,4 @@ const DropdownFilterByPrice = ({ priceFilter, setProductsFilters }) => {
   );
 };
 
-export default DropdownFilterByPrice;
+export default DropdownFilterByRating;
