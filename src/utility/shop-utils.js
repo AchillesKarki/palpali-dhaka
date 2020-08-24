@@ -55,8 +55,6 @@ export const fetchSingleProductFromDatabase = async (productId) => {
   try {
     const snapshot = await firestore.collection('products').doc(productId).get();
 
-    console.log(snapshot);
-
     const product = {
       id: snapshot.id,
       ...snapshot.data(),
