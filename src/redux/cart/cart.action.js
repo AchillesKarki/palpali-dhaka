@@ -15,6 +15,10 @@ export const toggleCartDropdown = () => ({
   type: CartActionTypes.TOGGLE_CART_DROPDOWN,
 });
 
+export const clearMessage = () => ({
+  type: CartActionTypes.CLEAR_MESSAGE,
+});
+
 export const clearWholeCart = () => ({
   type: CartActionTypes.CLEAR_WHOLE_CART,
 });

@@ -1,8 +1,33 @@
-@import "./mixins";
+$breakpoints: (
+  "xs-phone": 320px,
+  "phone": 600px,
+  "tablet": 900px,
+  "desktop": 1200px,
+  "widescreen": 1800px,
+);
+
+// keywords
+$media-expressions: (
+  "screen": "screen",
+  "print": "print",
+  "handheld": "handheld",
+  "landscape": "(orientation: landscape)",
+  "portrait": "(orientation: portrait)",
+  "retina2x": "(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)",
+  "retina3x": "(-webkit-min-device-pixel-ratio: 2.5), (min-resolution: 240dpi)",
+);
+
+@import "./include-media";
+@import "./normalize";
+
 @import "./variables";
+@import "./mixins";
+@import "./reset";
 @import "./form";
 @import "./dropdown";
 @import "./modal";
 @import "./button";
-@import "./base";
 @import "./utilities";
+@import "./icomoon";
+@import "./common";
+@import "./footer";

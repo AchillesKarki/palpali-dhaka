@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import ModalAlert from '../../components/modal-alert/modal-alert';
+import ModalAlert from '../../components/modals/modal-alert/modal-alert';
 
 const withAlert = (WrappedComponent) => {
   return ({ successMessage, errorMessage, clearMessage, ...props }) => {

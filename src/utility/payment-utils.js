@@ -74,6 +74,42 @@ export const approvePayPalOrder = async (data, actions) => {
   }
 };
 
+export const fetchUserOrdersFromDatabase = async () => {
+  if (CURRENT_USER_ID) {
+    try {
+      const existingUserOrder = await firestore.collection('orders').where('userId', '==', CURRENT_USER_ID).get();
+      let userOrders = {
+        orderItems: [],
+      };
+
+      if (!existingUserOrder.empty) {
+        userOrders = existingUserOrder.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))[0];
+
+        const userOrderItems = await firestore
+          .collection('orders')
+          .doc(userOrders.id)
+          .collection('orderItems')
+          .orderBy('createdAt')
+          .get();
+
+        userOrders.orderItems = userOrderItems.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+      }
+
+      return { type: 'success', userOrders };
+    } catch (error) {
+      return { type: 'error', errorMessage: error.message };
+    }
+  } else {
+    return { type: 'error', errorMessage: 'You must be signed in to complete this process' };
+  }
+};
+
 /**
  * implements the creating the orders (if not exists) or updating the orders (if exists) functionality
  */

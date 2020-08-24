@@ -5,8 +5,8 @@ import { createStructuredSelector } from 'reselect';
 import { setProductsFilters, fetchProductsStartAsync } from '../../redux/shop/shop.action';
 import { selectProductsFilters } from '../../redux/shop/shop.selector';
 
-import DropdownFilterByPrice from '../dropdown-filter-by-price/dropdown-filter-by-price';
-import DropdownFilterByRating from '../dropdown-filter-by-rating/dropdown-filter-by-rating';
+import DropdownFilterByPrice from '../dropdowns/dropdown-filter-by-price/dropdown-filter-by-price';
+import DropdownFilterByRating from '../dropdowns/dropdown-filter-by-rating/dropdown-filter-by-rating';
 
 import './filter-items.scss';
 

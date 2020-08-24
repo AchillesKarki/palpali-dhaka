@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 
 import { asyncUserRequestSuccess, closeUserDropdown, asyncUserRequestFailure } from './redux/user/user.action';
 import { closeCartDropdown, fetchCartItemsStartAsync } from './redux/cart/cart.action';
+import { fetchProductsStartAsync } from './redux/shop/shop.action';
 import { selectCurrentUser, selectToggleUser } from './redux/user/user.selector';
 import { selectToggleCart } from './redux/cart/cart.selector';
 
@@ -12,6 +13,7 @@ import { auth } from './firebase/firebase.utils';
 import { createUserProfileDocument } from './utility/user-utils';
 
 import Header from './components/header/header';
+import Footer from './components/footer/footer';
 import Loader from './components/loader/loader';
 import ErrorBoundary from './components/error-boundary/error-boundary';
 
@@ -27,6 +29,7 @@ export class App extends Component {
   firebaseAuthUnsubscribe = null;
 
   componentDidMount() {
+    this.props.getShopProducts();
     this.firebaseAuthUnsubscribe = auth.onAuthStateChanged(async (userInfo) => {
       if (userInfo) {
         try {
@@ -71,7 +74,7 @@ export class App extends Component {
                 <Route exact path='/product-detail/:productId' component={ProductDetailPage} />
                 <Route
                   exact
-                  path='/profile'
+                  path='/profile/:entity'
                   render={() => (this.props.currentUser ? <ProfilePage /> : <Redirect to='/auth/sign-in' />)}
                 />
                 <Route
@@ -88,6 +91,7 @@ export class App extends Component {
             </Switch>
           </div>
         </ErrorBoundary>
+        <Footer />
       </>
     );
   }
@@ -105,6 +109,7 @@ const mapDispatchToProps = (dispatch) => ({
   closeCartDropdown: () => dispatch(closeCartDropdown()),
   closeUserDropdown: () => dispatch(closeUserDropdown()),
   fetchCartItemsStartAsync: () => dispatch(fetchCartItemsStartAsync()),
+  getShopProducts: () => dispatch(fetchProductsStartAsync(null, 'newArrival')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

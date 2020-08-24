@@ -2,6 +2,8 @@ import { createSelector } from 'reselect';
 
 const PaymentSelector = (state) => state.payment;
 
+export const selectUserOrders = createSelector(PaymentSelector, (payment) => payment.userOrders);
+
 export const selectIsPaymentLoading = createSelector(PaymentSelector, (payment) => payment.isPaymentLoading);
 
 export const selectSuccessMessage = createSelector(PaymentSelector, (payment) => payment.successMessage);

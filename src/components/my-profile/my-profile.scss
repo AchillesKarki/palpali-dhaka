@@ -1,0 +1,28 @@
+.my-profile {
+  width: 100%;
+
+  .form-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .auth-wrapper {
+      width: 40%;
+    }
+
+    .address-wrapper {
+      width: 60%;
+      margin-left: 60px;
+    }
+  }
+
+  .billing-address-text {
+    margin: 20px 0;
+  }
+
+  .btn {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -4,6 +4,8 @@ import {
   firebaseSignInWithGoogle,
   firebaseResetPassword,
   firebaseSignOut,
+  firebaseUpdateProfile,
+  firebaseChangePassword,
 } from '../../utility/user-utils';
 
 import { UserActionTypes } from './user.types';
@@ -24,6 +26,14 @@ export const setSuccessMessage = (successMessage) => ({
 
 export const clearMessage = () => ({
   type: UserActionTypes.CLEAR_MESSAGE,
+});
+
+export const openUserModal = () => ({
+  type: UserActionTypes.OPEN_USER_MODAL,
+});
+
+export const closeUserModal = () => ({
+  type: UserActionTypes.CLOSE_USER_MODAL,
 });
 
 export const asyncUserRequestStart = () => ({
@@ -99,6 +109,35 @@ export const signOutStartAsync = () => {
 
     if (apiResponse.type === 'success') {
       dispatch(clearWholeCart());
+      dispatch(setSuccessMessage(apiResponse.successMessage));
+    } else {
+      dispatch(asyncUserRequestFailure(apiResponse.errorMessage));
+    }
+  };
+};
+
+export const updateUserProfileAsync = (updatedUserInfo) => {
+  return async (dispatch) => {
+    dispatch(asyncUserRequestStart());
+    const apiResponse = await firebaseUpdateProfile(updatedUserInfo);
+
+    if (apiResponse.type === 'success') {
+      dispatch(asyncUserRequestSuccess(apiResponse.currentUser));
+      dispatch(setSuccessMessage('The details have been set successfully.'));
+    } else {
+      dispatch(asyncUserRequestFailure(apiResponse.errorMessage));
+    }
+  };
+};
+
+export const changeUserPasswordAsync = (newPassword) => {
+  return async (dispatch) => {
+    dispatch(openUserModal());
+    dispatch(asyncUserRequestStart());
+    const apiResponse = await firebaseChangePassword(newPassword);
+
+    if (apiResponse.type === 'success') {
+      dispatch(closeUserModal());
       dispatch(setSuccessMessage(apiResponse.successMessage));
     } else {
       dispatch(asyncUserRequestFailure(apiResponse.errorMessage));

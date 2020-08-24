@@ -1,5 +1,5 @@
-@import "../../styles/mixins";
 @import "../../styles/variables";
+@import "../../styles/include-media";
 
 .checkout-page {
   max-width: 800px;
@@ -42,9 +42,9 @@
       overflow-x: hidden !important;
       overflow-y: auto;
 
-      @include respond(big-desktop) {
-        height: 408px;
-      }
+      // @include media(">=desktop") {
+      //   padding-top: 120px;
+      // }
 
       tr:nth-child(even) {
         background-color: $color-grey-2;
@@ -129,7 +129,7 @@
     font-size: 18px;
     margin-top: 20px;
 
-    @include respond(big-desktop) {
+    @include media(">=desktop") {
       margin-top: 40px;
     }
   }

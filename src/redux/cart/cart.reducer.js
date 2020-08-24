@@ -23,6 +23,13 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         toggleCart: !state.toggleCart,
       };
 
+    case CartActionTypes.CLEAR_MESSAGE:
+      return {
+        ...state,
+        successMessage: null,
+        errorMessage: null,
+      };
+
     case CartActionTypes.CLEAR_WHOLE_CART:
       return {
         ...state,

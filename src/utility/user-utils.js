@@ -108,6 +108,74 @@ export const firebaseSignOut = async () => {
 };
 
 /**
+ * implements the firebase update user functionality
+ * @param {Object} updatedUserInfo the updated user info
+ */
+export const firebaseUpdateProfile = async (updatedUserInfo) => {
+  if (CURRENT_USER_ID) {
+    let response;
+
+    try {
+      const userRef = firestore.doc(`users/${CURRENT_USER_ID}`);
+
+      const userSnapshot = await userRef.get();
+
+      if (userSnapshot.exists) {
+        await userRef.update(updatedUserInfo);
+        updatedUserInfo.id = CURRENT_USER_ID;
+
+        response = {
+          type: 'success',
+          currentUser: updatedUserInfo,
+        };
+      } else {
+        response = { type: 'error', errorMessage: "The user doesn't exist." };
+      }
+    } catch (error) {
+      response = { type: 'error', errorMessage: error.message };
+    }
+
+    return response;
+  } else {
+    return { type: 'error', errorMessage: 'You must be signed in to complete this process' };
+  }
+};
+
+/**
+ * implements the firebase change password functionality
+ * @param {String} newPassword the new password
+ */
+export const firebaseChangePassword = async (newPassword) => {
+  if (CURRENT_USER_ID) {
+    let response;
+
+    try {
+      const userRef = firestore.doc(`users/${CURRENT_USER_ID}`);
+
+      const userSnapshot = await userRef.get();
+
+      if (userSnapshot.exists) {
+        const user = auth.currentUser;
+        await user.updatePassword(newPassword);
+
+        response = {
+          type: 'success',
+          successMessage: 'Your password has been changed successfully',
+        };
+      } else {
+        response = { type: 'error', errorMessage: "The user doesn't exist." };
+      }
+    } catch (error) {
+      response = { type: 'error', errorMessage: error.message };
+    }
+
+    return response;
+  } else {
+    return { type: 'error', errorMessage: 'You must be signed in to complete this process' };
+  }
+};
+
+/**
  * helper method to create new user based on different auth mechanisms
  * @param {Object} userInfo the user info object
  * @param {Object} additionalUserInfo the additional info of the user
@@ -128,6 +196,12 @@ export const createUserProfileDocument = async (userInfo, additionalUserInfo) =>
         username: displayName ? displayName : additionalUserInfo.username,
         email,
         createdAt,
+        name: '',
+        country: '',
+        city: '',
+        address: '',
+        phone: '',
+        zip: '',
         ...additionalUserInfo,
       };
 
