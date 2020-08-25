@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Select from 'react-dropdown-select';
 
 import { PRICE_TYPES } from '../../../config';
+import { isEquivalent } from '../../../utility/helper-utils';
 
 const DropdownFilterByPrice = ({ priceFilter, setProductsFilters }) => {
   /**
@@ -39,4 +40,23 @@ const DropdownFilterByPrice = ({ priceFilter, setProductsFilters }) => {
   );
 };
 
-export default DropdownFilterByPrice;
+const areEqual = (prevProps, nextProps) => {
+  const prevFilter = prevProps.priceFilter[0];
+  const newFilter = nextProps.priceFilter[0];
+
+  if (!prevFilter && !newFilter) {
+    return true;
+  }
+
+  if (!prevFilter) {
+    return false;
+  }
+
+  if (!newFilter) {
+    return false;
+  }
+
+  return isEquivalent(prevFilter, newFilter);
+};
+
+export default memo(DropdownFilterByPrice, areEqual);

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import { clearMessage } from '../../redux/user/user.action';
-import { selectIsUserLoading, selectSuccessMessage, selectErrorMessage } from '../../redux/user/user.selector';
+import { selectIsUserLoading, selectSuccessMessage, selectUserErrorMessage } from '../../redux/user/user.selector';
 import './auth-page.scss';
 
 import withSpinner from '../../hoc/withSpinner/with-spinner';
@@ -27,7 +27,7 @@ const AuthPage = ({ match }) => {
 const mapStateToProps = createStructuredSelector({
   isUserLoading: selectIsUserLoading,
   successMessage: selectSuccessMessage,
-  errorMessage: selectErrorMessage,
+  userErrorMessage: selectUserErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({

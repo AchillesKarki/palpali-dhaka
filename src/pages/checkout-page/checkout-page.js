@@ -14,6 +14,7 @@ import {
   selectTotalCartItems,
   selectTotalCartAmount,
   selectIsCartLoading,
+  selectCartErrorMessage,
 } from '../../redux/cart/cart.selector';
 
 import './checkout-page.scss';
@@ -124,7 +125,8 @@ const mapStateToProps = createStructuredSelector({
   isCartLoading: selectIsCartLoading,
   isPaymentLoading: selectIsPaymentLoading,
   successMessage: selectSuccessMessage,
-  errorMessage: selectErrorMessage,
+  paymentErrorMessage: selectErrorMessage,
+  cartErrorMessage: selectCartErrorMessage,
   closePaymentModal: selectClosePaymentModal,
 });
 

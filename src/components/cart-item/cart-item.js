@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import StarRatings from '../star-ratings/star-ratings';
+import { isEquivalent } from '../../utility/helper-utils';
 import './cart-item.scss';
 
 const CartItem = ({ cartItem, history }) => {
@@ -30,4 +31,8 @@ const CartItem = ({ cartItem, history }) => {
   );
 };
 
-export default withRouter(CartItem);
+const areEqual = (prevProps, nextProps) => {
+  return isEquivalent(prevProps.cartItem, nextProps.cartItem);
+};
+
+export default withRouter(memo(CartItem, areEqual));

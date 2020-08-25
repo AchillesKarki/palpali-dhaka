@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectIsShopLoading, selectNewShopProducts, selectSingleShopProduct } from '../../redux/shop/shop.selector';
 import { fetchSingleProductStartAsync } from '../../redux/shop/shop.action';
 import { addCartItemStartAsync, clearMessage } from '../../redux/cart/cart.action';
-import { selectIsCartLoading, selectErrorMessage } from '../../redux/cart/cart.selector';
+import { selectIsCartLoading, selectCartErrorMessage } from '../../redux/cart/cart.selector';
 
 import withSpinner from '../../hoc/withSpinner/with-spinner';
 import withAlert from '../../hoc/withAlert/withAlert';
@@ -86,7 +86,7 @@ const ProductDetailPage = ({
 const mapStateToProps = createStructuredSelector({
   singleProduct: selectSingleShopProduct,
   products: selectNewShopProducts,
-  errorMessage: selectErrorMessage,
+  cartErrorMessage: selectCartErrorMessage,
   isShopLoading: selectIsShopLoading,
   isCartLoading: selectIsCartLoading,
 });

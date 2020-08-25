@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -18,6 +18,13 @@ const Homepage = ({ products, history }) => {
    */
   const navigateToShop = (routeParam) => {
     history.push(`/shop/${routeParam}`);
+  };
+
+  /**
+   * handles the click event on item
+   */
+  const handleItemClick = (cartItemId) => {
+    history.push(`/product-detail/${cartItemId}`);
   };
 
   return (
@@ -134,10 +141,12 @@ const Homepage = ({ products, history }) => {
                 {products.map((product) => (
                   <div key={product.id} className='content-wrap'>
                     <div className='image-holder'>
-                      <Link to={`/product-detail/${product.id}`}>
+                      <div className='inner'>
                         <div className='image' style={{ backgroundImage: `url(${product.imageUrl})` }}></div>
-                        <button className='btn btn-primary btn-medium'>Shop now</button>
-                      </Link>
+                        <button className='btn btn-primary btn-medium' onClick={() => handleItemClick(product.id)}>
+                          Shop now
+                        </button>
+                      </div>
                     </div>
                     <div className='detail-holder'>
                       <span className='name'>{product.name}</span>
@@ -207,4 +216,8 @@ const mapStateToProps = createStructuredSelector({
   isShopLoading: selectIsShopLoading,
 });
 
-export default connect(mapStateToProps)(withSpinner(Homepage));
+const areEqual = (prevProps, nextProps) => {
+  return JSON.stringify(prevProps.products) === JSON.stringify(nextProps.products);
+};
+
+export default connect(mapStateToProps)(withSpinner(memo(Homepage, areEqual)));

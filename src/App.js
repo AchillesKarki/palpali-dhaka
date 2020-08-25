@@ -37,7 +37,7 @@ export class App extends Component {
           this.props.setCurrentUser(currentUser);
           this.props.fetchCartItemsStartAsync();
         } catch (error) {
-          this.props.setUserAsyncErrorMessage(error.message);
+          this.props.setUserErrorMessage(error.message);
         }
       } else {
         this.props.setCurrentUser(null);
@@ -105,7 +105,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (currentUser) => dispatch(asyncUserRequestSuccess(currentUser)),
-  setUserAsyncErrorMessage: (errorMessage) => dispatch(asyncUserRequestFailure(errorMessage)),
+  setUserErrorMessage: (errorMessage) => dispatch(asyncUserRequestFailure(errorMessage)),
   closeCartDropdown: () => dispatch(closeCartDropdown()),
   closeUserDropdown: () => dispatch(closeUserDropdown()),
   fetchCartItemsStartAsync: () => dispatch(fetchCartItemsStartAsync()),

@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import { addCartItemStartAsync, clearMessage } from '../../redux/cart/cart.action';
 import { selectCurrentUser } from '../../redux/user/user.selector';
-import { selectErrorMessage } from '../../redux/cart/cart.selector';
+import { selectCartErrorMessage } from '../../redux/cart/cart.selector';
 
 import withAlert from '../../hoc/withAlert/withAlert';
 import StarRatings from '../star-ratings/star-ratings';
 import './collection-item.scss';
+import { isEquivalent } from '../../utility/helper-utils';
 
 const CollectionItem = ({ currentUser, cartItem, addCartItem, history }) => {
   const { id, name, price, imageUrl } = cartItem;
@@ -58,7 +59,7 @@ const CollectionItem = ({ currentUser, cartItem, addCartItem, history }) => {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  errorMessage: selectErrorMessage,
+  cartErrorMessage: selectCartErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -66,4 +67,8 @@ const mapDispatchToProps = (dispatch) => ({
   clearMessage: () => dispatch(clearMessage()),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withAlert(CollectionItem)));
+const areEqual = (prevProps, nextProps) => {
+  return isEquivalent(prevProps.cartItem, nextProps.cartItem);
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withAlert(memo(CollectionItem, areEqual))));
