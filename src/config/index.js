@@ -13,6 +13,9 @@ export const FIREBASE_CONFIG = {
   measurementId: 'G-4BRCFDQ6DX',
 };
 
+export const STRIPE_PUBLIC_API_KEY =
+  'pk_test_51HAvGeJ9cunJurQoCVzqNIlZdCMm4k0i7GfrGZS3dwr65fT5Tit8tzE4s7ZWu7hdqu8CHBPA3OR7EWSnCaud47pT00RQRTaoEe';
+
 export const PRODUCTS_CATEGORY = [
   {
     index: 0,
@@ -27,7 +30,6 @@ export const PRODUCTS_CATEGORY = [
     title: 'shoes',
   },
   {
-    size: 'large',
     index: 3,
     title: 'womens',
   },
