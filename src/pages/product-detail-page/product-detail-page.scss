@@ -39,6 +39,7 @@
   .text-holder {
     padding: 25px 0;
     width: 100%;
+
     @include media(">=tablet") {
       flex: 1;
       padding: 15px 20px 15px 50px;
@@ -49,6 +50,15 @@
     @include media(">=tablet") {
       padding-right: 50px;
       margin-bottom: 30px;
+    }
+  }
+
+  .btn {
+    display: block;
+    @include media("<tablet") {
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 }
@@ -85,8 +95,8 @@
     margin-bottom: 30px;
     width: 100%;
 
-    @include media(">=phone") {
-      width: 50%;
+    @include media("<600px") {
+      width: 100%;
     }
 
     @include media(">=tablet") {
@@ -120,7 +130,7 @@
       }
     }
 
-    a {
+    .inner {
       display: block;
       width: 100%;
       height: 100%;

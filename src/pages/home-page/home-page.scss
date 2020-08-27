@@ -11,10 +11,6 @@
 		position: relative;
 		min-height: 500px;
 
-		@include media(">=tablet") {
-			padding-top: 120px;
-		}
-
 		&:after {
 			content: "";
 			position: absolute;
@@ -55,34 +51,6 @@
 				width: 450px;
 				height: 500px;
 			}
-
-			&:before {
-				@include media(">=tablet") {
-					content: "";
-					position: absolute;
-					top: -120px;
-					bottom: 0;
-					left: -999px;
-					right: 30%;
-					background-color: $color-primary;
-					z-index: -2;
-				}
-			}
-
-			&:after {
-				@include media(">=tablet") {
-					content: "";
-					position: absolute;
-					top: -50px;
-					left: -40px;
-					bottom: 60px;
-					right: 170px;
-					transform: rotate(40deg);
-					background: rgba($color-secondary, 0.2);
-					z-index: -1;
-					border: 10px solid rgba($color-white, 0.3);
-				}
-			}
 		}
 
 		.text-wrapper {
@@ -106,6 +74,10 @@
 
 			@include media(">=tablet") {
 				margin: 0;
+			}
+
+			@include media("<tablet") {
+				padding: 0 10px;
 			}
 		}
 
@@ -279,8 +251,8 @@
 			margin-bottom: 30px;
 			width: 100%;
 
-			@include media(">=phone") {
-				width: 50%;
+			@include media("<tablet") {
+				width: 100%;
 			}
 
 			@include media(">=tablet") {
@@ -499,12 +471,13 @@
 			width: 100%;
 			padding: 0.4em 0.7em;
 
-			@include media("<phone") {
+			@include media("<600px") {
+				padding: 25px 0.7em;
 				border-radius: 7px;
 				margin-bottom: 15px;
 			}
 
-			@include media(">=phone") {
+			@include media(">600px") {
 				border-top-left-radius: 7px;
 				border-bottom-left-radius: 7px;
 				width: 380px;
@@ -524,12 +497,13 @@
 			padding: 10px 30px 11px;
 			transition: 0.5s;
 
-			@include media("<phone") {
+			@include media("<600px") {
+				padding: 20px 0.7em;
 				border-radius: 7px;
 				width: 100%;
 			}
 
-			@include media(">=phone") {
+			@include media(">600px") {
 				padding: 14px 30px 15px;
 				margin-left: -5px;
 				border-top-right-radius: 7px;

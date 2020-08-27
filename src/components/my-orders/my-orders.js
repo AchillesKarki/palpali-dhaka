@@ -17,6 +17,7 @@ const MyOrders = ({ userOrders: { orderItems }, fetchUserOrders }) => {
   return (
     <div className='my-orders'>
       <div className='my-orders-table'>
+        <h3 className='responsive-header'>My Orders</h3>
         <div className='my-orders-table-head'>
           <table>
             <thead>
@@ -34,8 +35,8 @@ const MyOrders = ({ userOrders: { orderItems }, fetchUserOrders }) => {
           {orderItems.length ? (
             <table>
               <tbody>
-                {orderItems.map((orderItem) => (
-                  <OrderItem key={orderItem.id} orderItem={orderItem} />
+                {orderItems.map((orderItem, index) => (
+                  <OrderItem key={orderItem.id + index} orderItem={orderItem} />
                 ))}
               </tbody>
             </table>

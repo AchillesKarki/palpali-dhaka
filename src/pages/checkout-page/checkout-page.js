@@ -50,6 +50,7 @@ const CheckoutPage = ({ userCart: { cartItems }, totalCartItems, totalCartAmount
   return (
     <div className='checkout-page'>
       <div className='checkout-page-table'>
+        <h3 className='responsive-header'>My Cart</h3>
         <div className='checkout-page-table-head'>
           <table>
             <thead>
@@ -89,10 +90,14 @@ const CheckoutPage = ({ userCart: { cartItems }, totalCartItems, totalCartAmount
           </div>
         </div>
       </div>
+      <div className='warning-label-responsive'>
+        Please, do not use your original transaction details.
+        <br /> Test account credentials are provided with respective payment gateway.
+      </div>
       <div className='checkout-page-payment-options-text'>Payment Options:</div>
       <div className='checkout-page-payment-button-wrapper'>
         <button
-          className='btn btn-primary'
+          className='btn btn-primary btn-small'
           disabled={!totalCartItems}
           title={totalCartItems ? 'Proceed to Checkout With Stripe' : 'No Items In The Cart'}
           onClick={() => openModal('stripe')}
@@ -100,7 +105,7 @@ const CheckoutPage = ({ userCart: { cartItems }, totalCartItems, totalCartAmount
           Stripe
         </button>
         <button
-          className='btn btn-secondary'
+          className='btn btn-secondary btn-small'
           disabled={!totalCartItems}
           title={totalCartItems ? 'Proceed to Checkout With Stripe' : 'No Items In The Cart'}
           onClick={() => openModal('paypal')}
