@@ -1,8 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import './collection-preview.scss';
+import { selectCartErrorMessage } from '../../redux/cart/cart.selector';
+import { clearMessage } from '../../redux/cart/cart.action';
 
+import withAlert from '../../hoc/withAlert/withAlert';
 import CollectionItem from '../collection-item/collection-item';
+import './collection-preview.scss';
 
 const CollectionPreview = ({ products }) => {
   return (
@@ -20,4 +25,12 @@ const CollectionPreview = ({ products }) => {
   );
 };
 
-export default CollectionPreview;
+const mapStateToProps = createStructuredSelector({
+  cartErrorMessage: selectCartErrorMessage,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  clearMessage: () => dispatch(clearMessage()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withAlert(CollectionPreview));

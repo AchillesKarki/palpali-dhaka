@@ -7,11 +7,9 @@ import { selectUserCart } from '../../../redux/cart/cart.selector';
 
 import CartItem from '../../cart-item/cart-item';
 
-import './dropdown-cart.scss';
-
 const DropdownCart = ({ userCart: { cartItems }, history }) => {
   return (
-    <div className='dropdown padded'>
+    <div className='dropdown padded cart-items-dropdown'>
       <div className='dropdown-items-wrapper cart-items-wrapper'>
         {cartItems.length ? (
           cartItems.map((cartItem) => <CartItem key={cartItem.id} cartItem={cartItem} className='dropdown-item' />)

@@ -1,10 +1,9 @@
 @import "../../styles/variables";
+@import "../../styles/include-media";
 
 .sign-in {
-  width: 50%;
   max-width: 600px;
-  margin: 30px auto;
-
+  margin: 0 auto;
   .forgot-password-wrapper {
     text-align: right;
   }
@@ -25,10 +24,18 @@
     display: flex;
     align-items: center;
 
+    @include media("<tablet") {
+      flex-direction: column;
+    }
+
     p {
       font-weight: bold;
       font-size: 18px;
       margin: 0 15px;
+
+      @include media("<tablet") {
+        margin: 15px;
+      }
     }
   }
 

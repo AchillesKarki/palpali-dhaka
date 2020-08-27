@@ -21,16 +21,27 @@ h6,
 h1,
 .h1 {
 	font-size: $h1-font-size;
+	@include media("<tablet") {
+		font-size: $h2-font-size;
+	}
 }
 
 h2,
 .h2 {
 	font-size: $h2-font-size;
+
+	@include media("<tablet") {
+		font-size: $h3-font-size;
+	}
 }
 
 h3,
 .h3 {
 	font-size: $h3-font-size;
+
+	@include media("<tablet") {
+		font-size: $h4-font-size;
+	}
 }
 
 h4,

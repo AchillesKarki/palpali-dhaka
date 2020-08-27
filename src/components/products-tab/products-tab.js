@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
@@ -7,24 +7,49 @@ import { PRODUCTS_CATEGORY } from '../../config';
 import { fetchProductsStartAsync, clearProductsFilters } from '../../redux/shop/shop.action';
 
 import CollectionPreview from '../../components/collection-preview/collection-preview';
+import DropdownFilters from '../../components/dropdowns/dropdown-filters/dropdown-filters';
 import FilterItems from '../../components/filter-items/filter-items';
 
 import './products-tab.scss';
 
-export class ProductsTab extends Component {
-  constructor(props) {
-    super(props);
+const ProductsTab = ({ product, products, getShopProducts, clearProductsFilters }) => {
+  const filterWrapperRef = useRef(null);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [productType, setProductType] = useState('');
+  const [filterOpen, setFilterOpen] = useState(false);
 
-    this.state = {
-      tabIndex: 0,
-      productType: '',
+  useEffect(() => {
+    if (productType) {
+      clearProductsFilters();
+      getShopProducts(productType);
+    }
+  }, [productType, getShopProducts, clearProductsFilters]);
+
+  useEffect(() => {
+    const tabIndex = PRODUCTS_CATEGORY.find((section) => section.title === product).index;
+    setProductType(product);
+    setTabIndex(tabIndex);
+  }, [product]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        filterWrapperRef.current &&
+        !filterWrapperRef.current.contains(event.target) &&
+        !event.target.className.includes('react-dropdown-select-item') &&
+        !event.target.className.includes('clear-filter-button') &&
+        filterOpen
+      ) {
+        setFilterOpen(false);
+      }
     };
-  }
 
-  componentDidMount() {
-    const tabIndex = PRODUCTS_CATEGORY.find((section) => section.title === this.props.product).index;
-    this.handleTabChange(tabIndex);
-  }
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [filterOpen]);
 
   /**
    * handles the tab change event
@@ -32,50 +57,55 @@ export class ProductsTab extends Component {
    * @param {Number} lastIndex the last selected tab index
    * @param {Object} e the tab select event
    */
-  handleTabChange = (index, lastIndex, e) => {
-    let productType = this.props.product;
+  const handleTabChange = (index, lastIndex, e) => {
+    setTabIndex(index);
 
     if (e) {
-      productType = e.target.innerText.toLowerCase();
+      setProductType(e.target.innerText.toLowerCase());
     }
-
-    this.setState({
-      tabIndex: index,
-      productType,
-    });
-
-    this.props.clearProductsFilters();
-    this.props.getShopProducts(productType);
   };
 
-  render() {
-    const products = this.props.products;
-    const tabIndex = this.state.tabIndex;
+  const handleResponsiveClick = () => {
+    setFilterOpen(!filterOpen);
+  };
 
-    return (
-      <Tabs
-        selectedIndex={tabIndex}
-        onSelect={(index, lastIndex, event) => this.handleTabChange(index, lastIndex, event)}
-      >
-        <TabList>
-          {PRODUCTS_CATEGORY.map((category) => (
-            <Tab key={category.index}>{category.title.toUpperCase()}</Tab>
-          ))}
-        </TabList>
-        <div className='shop-page-collections'>
-          <div className='filter-section'>
-            <FilterItems productType={this.state.productType} />
-          </div>
-          <div className='collection-section'>
-            {PRODUCTS_CATEGORY.map((category) => (
-              <TabPanel key={category.index}>{products && <CollectionPreview products={products} />}</TabPanel>
-            ))}
-          </div>
+  return (
+    <Tabs selectedIndex={tabIndex} onSelect={(index, lastIndex, event) => handleTabChange(index, lastIndex, event)}>
+      <TabList>
+        {PRODUCTS_CATEGORY.map((category) => (
+          <Tab key={category.index}>{category.title.toUpperCase()}</Tab>
+        ))}
+      </TabList>
+      <div className='shop-page-collections'>
+        <div className='filter-section'>
+          <FilterItems productType={productType} />
         </div>
-      </Tabs>
-    );
-  }
-}
+        <div className='filter-section-responsive'>
+          <button
+            className='btn btn-outline-secondary btn-small btn-no-animation filters-dropdown-trigger'
+            onClick={handleResponsiveClick}
+          >
+            Filters
+            <div className='icon-wrap'>
+              <span className='icon-filter'></span>
+            </div>
+          </button>
+          {filterOpen && (
+            <div ref={filterWrapperRef}>
+              <DropdownFilters productType={productType} />
+            </div>
+          )}
+        </div>
+
+        <div className='collection-section'>
+          {PRODUCTS_CATEGORY.map((category) => (
+            <TabPanel key={category.index}>{products && <CollectionPreview products={products} />}</TabPanel>
+          ))}
+        </div>
+      </div>
+    </Tabs>
+  );
+};
 
 const mapDispatchToProps = (dispatch) => ({
   getShopProducts: (productType) => dispatch(fetchProductsStartAsync(productType)),

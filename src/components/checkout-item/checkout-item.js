@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { addCartItemStartAsync, removeCartItemStartAsync, clearCartItemStartAsync } from '../../redux/cart/cart.action';
 
+import { isEquivalent } from '../../utility/helper-utils';
 import StarRatings from '../star-ratings/star-ratings';
 import './checkout-item.scss';
 
@@ -57,4 +58,8 @@ const mapDispatchToProps = (dispatch) => ({
   clearCartItem: (cartItem) => dispatch(clearCartItemStartAsync(cartItem)),
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(CheckoutItem));
+const areEqual = (prevProps, nextProps) => {
+  return isEquivalent(prevProps.cartItem, nextProps.cartItem);
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(memo(CheckoutItem, areEqual)));

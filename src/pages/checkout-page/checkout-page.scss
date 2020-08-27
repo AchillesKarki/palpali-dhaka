@@ -15,9 +15,25 @@
     border-radius: 5px;
     overflow: hidden;
 
+    @include media("<tablet") {
+      padding-top: 0;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
+    }
+
+    .responsive-header {
+      display: none;
+
+      @include media("<tablet") {
+        display: block;
+        padding: 10px;
+        margin: 0;
+        background: $color-primary;
+        color: $color-white;
+      }
     }
 
     .checkout-page-table-head {
@@ -25,6 +41,10 @@
       width: 100%;
       top: 0;
       left: 0;
+
+      @include media("<tablet") {
+        display: none;
+      }
 
       .table-header-cell {
         text-align-last: left;
@@ -81,6 +101,10 @@
       padding: 10px;
       background-color: $color-grey-2;
       text-transform: uppercase;
+
+      @include media("<tablet") {
+        display: none;
+      }
     }
 
     .checkout-page-table-footer {
@@ -93,10 +117,18 @@
         margin-left: auto;
         margin-right: 20px;
 
+        @include media("<tablet") {
+          font-size: 16px;
+        }
+
         .price {
           font-size: 20px;
           margin-left: 5px;
           font-weight: 500;
+
+          @include media("<tablet") {
+            font-size: 18px;
+          }
         }
       }
     }
@@ -105,21 +137,54 @@
     td.column1 {
       width: 40%;
       padding-left: 40px !important;
+
+      @include media("<tablet") {
+        padding-left: 10px !important;
+        width: 55%;
+      }
     }
 
     th.column2,
     td.column2 {
       width: 20%;
+
+      @include media("<tablet") {
+        width: 15%;
+      }
     }
 
     th.column3,
     td.column3 {
       width: 20%;
+
+      @include media("<tablet") {
+        width: 15%;
+      }
     }
 
     th.column4,
     td.column4 {
       width: 20%;
+
+      @include media("<tablet") {
+        width: 15%;
+      }
+    }
+  }
+
+  .warning-label-responsive {
+    display: none;
+    text-align: center;
+    color: #e71d36;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: $color-grey-2;
+    text-transform: uppercase;
+
+    @include media("<tablet") {
+      display: block;
     }
   }
 
@@ -140,11 +205,8 @@
     align-items: center;
     margin-top: 15px;
 
-    .btn {
-      margin-right: 40px;
-      margin-top: -3px;
-      min-width: 150px !important;
-      width: 150px !important;
+    .btn:last-child {
+      margin-left: 40px;
     }
   }
 }

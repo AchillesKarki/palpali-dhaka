@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { selectIsShopLoading, selectNewShopProducts, selectSingleShopProduct } from '../../redux/shop/shop.selector';
-import { fetchSingleProductStartAsync } from '../../redux/shop/shop.action';
+import { fetchSingleProductStartAsync, fetchProductsStartAsync } from '../../redux/shop/shop.action';
 import { addCartItemStartAsync, clearMessage } from '../../redux/cart/cart.action';
-import { selectIsCartLoading, selectErrorMessage } from '../../redux/cart/cart.selector';
+import { selectIsCartLoading, selectCartErrorMessage } from '../../redux/cart/cart.selector';
 
 import withSpinner from '../../hoc/withSpinner/with-spinner';
 import withAlert from '../../hoc/withAlert/withAlert';
@@ -16,16 +15,31 @@ import './product-detail-page.scss';
 const ProductDetailPage = ({
   singleProduct,
   products,
+  getSingleProduct,
+  getShopProducts,
+  addCartItem,
+  history,
   match: {
     params: { productId },
   },
-  getSingleProduct,
-  addCartItem,
 }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getSingleProduct(productId);
   }, [productId, getSingleProduct]);
+
+  useEffect(() => {
+    if (!products.length) {
+      getShopProducts();
+    }
+  }, [products.length, getShopProducts]);
+
+  /**
+   * handles the click event on item
+   */
+  const handleItemClick = (cartItemId) => {
+    history.push(`/product-detail/${cartItemId}`);
+  };
 
   return (
     <div>
@@ -63,10 +77,12 @@ const ProductDetailPage = ({
                 {products.map((product) => (
                   <div key={product.id} className='content-wrap'>
                     <div className='image-holder'>
-                      <Link to={`/product-detail/${product.id}`}>
+                      <div className='inner'>
                         <div className='image' style={{ backgroundImage: `url(${product.imageUrl})` }}></div>
-                        <button className='btn btn-primary btn-medium'>Shop now</button>
-                      </Link>
+                        <button className='btn btn-primary btn-medium' onClick={() => handleItemClick(product.id)}>
+                          Shop now
+                        </button>
+                      </div>
                     </div>
                     <div className='detail-holder'>
                       <span className='name'>{product.name}</span>
@@ -86,13 +102,14 @@ const ProductDetailPage = ({
 const mapStateToProps = createStructuredSelector({
   singleProduct: selectSingleShopProduct,
   products: selectNewShopProducts,
-  errorMessage: selectErrorMessage,
+  cartErrorMessage: selectCartErrorMessage,
   isShopLoading: selectIsShopLoading,
   isCartLoading: selectIsCartLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getSingleProduct: (productId) => dispatch(fetchSingleProductStartAsync(productId)),
+  getShopProducts: () => dispatch(fetchProductsStartAsync(null, 'newArrival')),
   addCartItem: (product) => dispatch(addCartItemStartAsync(product)),
   clearMessage: () => dispatch(clearMessage()),
 });

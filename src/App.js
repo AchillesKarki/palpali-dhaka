@@ -3,11 +3,9 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { asyncUserRequestSuccess, closeUserDropdown, asyncUserRequestFailure } from './redux/user/user.action';
-import { closeCartDropdown, fetchCartItemsStartAsync } from './redux/cart/cart.action';
-import { fetchProductsStartAsync } from './redux/shop/shop.action';
-import { selectCurrentUser, selectToggleUser } from './redux/user/user.selector';
-import { selectToggleCart } from './redux/cart/cart.selector';
+import { asyncUserRequestSuccess, asyncUserRequestFailure } from './redux/user/user.action';
+import { fetchCartItemsStartAsync } from './redux/cart/cart.action';
+import { selectCurrentUser } from './redux/user/user.selector';
 
 import { auth } from './firebase/firebase.utils';
 import { createUserProfileDocument } from './utility/user-utils';
@@ -29,7 +27,6 @@ export class App extends Component {
   firebaseAuthUnsubscribe = null;
 
   componentDidMount() {
-    this.props.getShopProducts();
     this.firebaseAuthUnsubscribe = auth.onAuthStateChanged(async (userInfo) => {
       if (userInfo) {
         try {
@@ -37,23 +34,12 @@ export class App extends Component {
           this.props.setCurrentUser(currentUser);
           this.props.fetchCartItemsStartAsync();
         } catch (error) {
-          this.props.setUserAsyncErrorMessage(error.message);
+          this.props.setUserErrorMessage(error.message);
         }
       } else {
         this.props.setCurrentUser(null);
       }
     });
-
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = (event) => {
-      if (this.props.toggleCart && !event.target.matches(['.cart-dropdown-trigger', 'path'])) {
-        this.props.closeCartDropdown();
-      }
-
-      if (this.props.toggleUser && !event.target.matches('.user-dropdown-trigger')) {
-        this.props.closeUserDropdown();
-      }
-    };
   }
 
   componentWillUnmount() {
@@ -99,17 +85,12 @@ export class App extends Component {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  toggleUser: selectToggleUser,
-  toggleCart: selectToggleCart,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (currentUser) => dispatch(asyncUserRequestSuccess(currentUser)),
-  setUserAsyncErrorMessage: (errorMessage) => dispatch(asyncUserRequestFailure(errorMessage)),
-  closeCartDropdown: () => dispatch(closeCartDropdown()),
-  closeUserDropdown: () => dispatch(closeUserDropdown()),
+  setUserErrorMessage: (errorMessage) => dispatch(asyncUserRequestFailure(errorMessage)),
   fetchCartItemsStartAsync: () => dispatch(fetchCartItemsStartAsync()),
-  getShopProducts: () => dispatch(fetchProductsStartAsync(null, 'newArrival')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,14 +1,18 @@
 @import "../../styles/variables";
+@import "../../styles/include-media";
 
 .sign-up {
-  width: 50%;
   max-width: 600px;
-  margin: 30px auto;
+  margin: 0 auto;
 
-  .form-group-buttons {
+  .btn {
+    display: block;
     margin-top: 40px;
-    display: flex;
-    align-items: center;
+
+    @include media("<tablet") {
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     p {
       font-weight: bold;

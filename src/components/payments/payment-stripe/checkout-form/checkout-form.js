@@ -75,10 +75,10 @@ const CheckoutForm = ({ closeStripePaymentModal, totalCartAmount, handleStripePa
         </div>
       )}
       <div className='stripe-checkout-form-footer'>
-        <button type='submit' className='btn btn-primary btn-medium'>
+        <button type='submit' className='btn btn-primary btn-small'>
           Pay ${totalCartAmount}
         </button>
-        <button type='button' className='btn btn-outline-secondary btn-medium' onClick={closeStripePaymentModal}>
+        <button type='button' className='btn btn-outline-secondary btn-small' onClick={closeStripePaymentModal}>
           Close
         </button>
       </div>

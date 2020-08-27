@@ -1,4 +1,5 @@
 @import "../../styles/variables";
+@import "../../styles/include-media";
 
 .header {
   height: 70px;
@@ -7,7 +8,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  padding: 10px 40px;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
   background-color: $color-white;
   box-shadow: 0 0.1rem 1rem rgba($color-black, 0.2);
 
@@ -17,20 +21,78 @@
     padding: 5px;
   }
 
+  .navbar-icons {
+    display: none;
+
+    @include media("<tablet") {
+      display: block;
+    }
+
+    .icon-wrap {
+      cursor: pointer;
+
+      .icons {
+        color: $color-black;
+
+        &.icon-menu {
+          font-size: 32px;
+        }
+
+        &.icon-clear {
+          font-size: 22px;
+        }
+      }
+    }
+  }
+
   .nav {
-    width: 50%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
 
+    &.responsive-nav {
+      display: none;
+
+      @include media(">phone") {
+        display: flex;
+      }
+    }
+
+    @include media("<tablet") {
+      display: none;
+      border-top: 1px solid $color-grey-2;
+      background-color: #fdfffc;
+      width: 100%;
+      z-index: 99;
+      height: auto;
+      flex-direction: column;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      box-shadow: 0 1.2rem 2rem rgba($color-black, 0.2);
+    }
+
     .nav-items {
       cursor: pointer;
       position: relative;
 
+      @include media("<tablet") {
+        width: 100%;
+        padding: 20px 10px;
+        border-bottom: 1px solid $color-grey-2;
+      }
+
       .nav-item-link {
         padding: 10px 15px;
         z-index: 5;
+
+        @include media("<tablet") {
+          padding: 0 15px;
+          display: inline-block;
+          width: 100%;
+        }
 
         &:hover,
         &.active {
@@ -44,8 +106,11 @@
         align-items: center;
 
         .user-logo {
-          width: 24px;
           height: 24px;
+
+          @include media("<tablet") {
+            height: 19px;
+          }
         }
 
         .user-label {
@@ -59,9 +124,26 @@
         align-items: center;
         justify-content: center;
 
+        @include media("<tablet") {
+          justify-content: flex-start;
+        }
+
+        .cart-text {
+          display: none;
+          text-transform: uppercase;
+          margin-left: 5px;
+
+          @include media("<tablet") {
+            display: block;
+          }
+        }
+
         .cart-logo {
           height: 26px;
-          width: 26px;
+
+          @include media("<tablet") {
+            height: 19px;
+          }
         }
 
         .cart-price {
@@ -72,6 +154,12 @@
           font-weight: 600;
           width: 25px;
           text-align: center;
+
+          @include media("<tablet") {
+            top: -12px;
+            left: 14px;
+            font-weight: 500;
+          }
         }
       }
     }

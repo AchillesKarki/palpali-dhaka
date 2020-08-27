@@ -1,3 +1,6 @@
+@import "../../styles/include-media";
+@import "../../styles/include-media";
+
 .filter-items {
 	display: flex;
 	flex-direction: column;
@@ -9,10 +12,18 @@
 		text-align: left;
 		margin-right: auto;
 		margin-bottom: 20px;
+
+		@include media("<tablet") {
+			display: none;
+		}
 	}
 
 	&-by-price {
 		margin-bottom: 15px;
+
+		@include media("<tablet") {
+			margin-bottom: 0px;
+		}
 	}
 
 	.btn {

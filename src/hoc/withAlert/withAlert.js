@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ModalAlert from '../../components/modals/modal-alert/modal-alert';
 
 const withAlert = (WrappedComponent) => {
-  return ({ successMessage, errorMessage, clearMessage, ...props }) => {
+  return ({ successMessage, userErrorMessage, paymentErrorMessage, cartErrorMessage, clearMessage, ...props }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [alert, setAlert] = useState(null);
 
@@ -19,15 +19,37 @@ const withAlert = (WrappedComponent) => {
     }, [successMessage]);
 
     useEffect(() => {
-      if (errorMessage) {
+      if (userErrorMessage) {
         setAlert({
           type: 'Error',
-          message: errorMessage,
+          message: userErrorMessage,
         });
 
         setIsOpen(true);
       }
-    }, [errorMessage]);
+    }, [userErrorMessage]);
+
+    useEffect(() => {
+      if (paymentErrorMessage) {
+        setAlert({
+          type: 'Error',
+          message: paymentErrorMessage,
+        });
+
+        setIsOpen(true);
+      }
+    }, [paymentErrorMessage]);
+
+    useEffect(() => {
+      if (cartErrorMessage) {
+        setAlert({
+          type: 'Error',
+          message: cartErrorMessage,
+        });
+
+        setIsOpen(true);
+      }
+    }, [cartErrorMessage]);
 
     const closeModal = () => {
       setIsOpen(false);

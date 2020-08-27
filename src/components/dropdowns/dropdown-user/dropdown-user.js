@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import './dropdown-user.scss';
-
 const DropdownUser = ({ handleLogout, history }) => {
   /**
    * handles the click event on my profile

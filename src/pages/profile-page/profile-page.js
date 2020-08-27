@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { selectSuccessMessage, selectErrorMessage, selectIsUserLoading } from '../../redux/user/user.selector';
+import { selectSuccessMessage, selectUserErrorMessage, selectIsUserLoading } from '../../redux/user/user.selector';
 import { clearMessage } from '../../redux/user/user.action';
 
 import withSpinner from '../../hoc/withSpinner/with-spinner';
@@ -28,7 +28,7 @@ const ProfilePage = ({
 
 const mapStateToProps = createStructuredSelector({
   successMessage: selectSuccessMessage,
-  errorMessage: selectErrorMessage,
+  userErrorMessage: selectUserErrorMessage,
   isUserLoading: selectIsUserLoading,
   isPaymentLoading: selectIsPaymentLoading,
 });

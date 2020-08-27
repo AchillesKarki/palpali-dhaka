@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { memo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -10,14 +9,28 @@ import bannerImage from '../../assets/images/banner-bg02.jpg';
 import heroImage from '../../assets/images/img07.jpg';
 
 import './home-page.scss';
+import { fetchProductsStartAsync } from '../../redux/shop/shop.action';
 
-const Homepage = ({ products, history }) => {
+const Homepage = ({ products, history, getShopProducts }) => {
+  useEffect(() => {
+    if (!products.length) {
+      getShopProducts();
+    }
+  }, [products.length, getShopProducts]);
+
   /**
    * navigates to the shop page
    * @param {String} routeParam the shop route param to navigate to
    */
   const navigateToShop = (routeParam) => {
     history.push(`/shop/${routeParam}`);
+  };
+
+  /**
+   * handles the click event on item
+   */
+  const handleItemClick = (cartItemId) => {
+    history.push(`/product-detail/${cartItemId}`);
   };
 
   return (
@@ -38,9 +51,9 @@ const Homepage = ({ products, history }) => {
                   browse our <br /> dhaka products
                 </h1>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis aliquam reiciendis facilis deleniti,
-                  ratione perspiciatis unde exercitationem maiores magnam blanditiis. Fugiat dolorem doloribus molestias
-                  nulla consequatur officiis inventore harum perspiciatis.
+                  We bring you the greatest Dhaka Products from the best manufacturers all over Nepal.
+                  <br />
+                  The quality and the beauty of each, is of its own and stands superior to all.
                 </p>
                 <button className='btn btn-primary btn-small' onClick={() => navigateToShop('hats')}>
                   Browse now
@@ -134,10 +147,12 @@ const Homepage = ({ products, history }) => {
                 {products.map((product) => (
                   <div key={product.id} className='content-wrap'>
                     <div className='image-holder'>
-                      <Link to={`/product-detail/${product.id}`}>
+                      <div className='inner'>
                         <div className='image' style={{ backgroundImage: `url(${product.imageUrl})` }}></div>
-                        <button className='btn btn-primary btn-medium'>Shop now</button>
-                      </Link>
+                        <button className='btn btn-primary btn-medium' onClick={() => handleItemClick(product.id)}>
+                          Shop now
+                        </button>
+                      </div>
                     </div>
                     <div className='detail-holder'>
                       <span className='name'>{product.name}</span>
@@ -171,11 +186,13 @@ const Homepage = ({ products, history }) => {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam reiciendis omnis aspernatur
                         est odionulla
                       </p>
-                      <Link to={`/product-detail/${product.id}`}>
-                        <button className='btn btn-primary btn-medium' type='button'>
-                          Shop Now
-                        </button>
-                      </Link>
+                      <button
+                        className='btn btn-primary btn-medium'
+                        type='button'
+                        onClick={() => handleItemClick(product.id)}
+                      >
+                        Shop Now
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -207,4 +224,12 @@ const mapStateToProps = createStructuredSelector({
   isShopLoading: selectIsShopLoading,
 });
 
-export default connect(mapStateToProps)(withSpinner(Homepage));
+const mapDispatchToProps = (dispatch) => ({
+  getShopProducts: () => dispatch(fetchProductsStartAsync(null, 'newArrival')),
+});
+
+const areEqual = (prevProps, nextProps) => {
+  return JSON.stringify(prevProps.products) === JSON.stringify(nextProps.products);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withSpinner(memo(Homepage, areEqual)));

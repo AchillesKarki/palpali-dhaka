@@ -10,6 +10,6 @@ export const selectIsUserLoading = createSelector(UserSelector, (user) => user.i
 
 export const selectSuccessMessage = createSelector(UserSelector, (user) => user.successMessage);
 
-export const selectErrorMessage = createSelector(UserSelector, (user) => user.errorMessage);
+export const selectUserErrorMessage = createSelector(UserSelector, (user) => user.errorMessage);
 
 export const selectCloseUserModal = createSelector(UserSelector, (user) => user.closeUserModal);
