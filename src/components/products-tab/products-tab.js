@@ -65,8 +65,16 @@ const ProductsTab = ({ product, products, getShopProducts, clearProductsFilters 
     }
   };
 
-  const handleResponsiveClick = () => {
-    setFilterOpen(!filterOpen);
+  /**
+   * handles the filter dropdown open or close
+   * @param {Boolean} trigger the trigger to handle the filter dropdown open or close
+   */
+  const handleResponsiveClick = (trigger = null) => {
+    if (trigger) {
+      setFilterOpen(trigger);
+    } else {
+      setFilterOpen(!filterOpen);
+    }
   };
 
   return (
@@ -92,7 +100,7 @@ const ProductsTab = ({ product, products, getShopProducts, clearProductsFilters 
           </button>
           {filterOpen && (
             <div ref={filterWrapperRef}>
-              <DropdownFilters productType={productType} />
+              <DropdownFilters productType={productType} handleResponsiveClick={handleResponsiveClick} />
             </div>
           )}
         </div>

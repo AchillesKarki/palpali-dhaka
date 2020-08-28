@@ -10,7 +10,14 @@ import DropdownFilterByRating from '../dropdowns/dropdown-filter-by-rating/dropd
 
 import './filter-items.scss';
 
-const FilterItems = ({ productType, productsFilters, setProductsFilters, getShopProducts }) => {
+const FilterItems = ({
+  fromDropdown,
+  productType,
+  productsFilters,
+  setProductsFilters,
+  getShopProducts,
+  handleResponsiveClick,
+}) => {
   const priceFilter = productsFilters.price;
   const ratingFilter = productsFilters.rating;
 
@@ -32,6 +39,10 @@ const FilterItems = ({ productType, productsFilters, setProductsFilters, getShop
         filterType: 'rating',
         filterValue: ratingFilter[0].value,
       });
+    }
+
+    if (fromDropdown) {
+      handleResponsiveClick(false);
     }
 
     getShopProducts(productType, filters);
