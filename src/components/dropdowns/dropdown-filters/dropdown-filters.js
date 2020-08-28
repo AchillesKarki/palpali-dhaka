@@ -2,11 +2,11 @@ import React from 'react';
 
 import FilterItems from '../../filter-items/filter-items';
 
-const DropdownFilters = ({ productType }) => {
+const DropdownFilters = ({ productType, handleResponsiveClick }) => {
   return (
     <div className='dropdown filter-items-dropdown'>
       <div className='dropdown-items-wrapper'>
-        <FilterItems productType={productType} />
+        <FilterItems productType={productType} handleResponsiveClick={handleResponsiveClick} fromDropdown={true} />
       </div>
     </div>
   );
