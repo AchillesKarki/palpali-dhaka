@@ -40,10 +40,10 @@ Dhaka is traditional hand made fabric which are produced in various parts of Nep
 
 ## Payment
 
-- The application includes [Stripe]() and [PayPal]() payment options
+- The application includes [Stripe](https://stripe.com/) and [PayPal](https://www.paypal.com/) payment options
 - Since this is a demo project, production keys are not used
 - Dummy credentials are provided for both options to the users for mimicking the payment process
-- Stripe backend payment handling is not yet done, and will be integrating when `Node-Express` backend is built for the appliication
+- Stripe backend payment handling is not yet done, and will be integrating when `Node-Express` backend is built for the application
 
 ## Local Deployment
 
