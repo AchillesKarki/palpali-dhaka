@@ -1,68 +1,52 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Palpali Dhaka
 
-## Available Scripts
+## [Live Demo](https://palpali-dhaka.netlify.app/)
 
-In the project directory, you can run:
+## Introduction
 
-### `npm start`
+This is a `React-Redux` e-commerce project developed for the online showcasing and purchase of "Dhaka" products which uses `Firebase` as a backend service.<br />
+Dhaka is traditional hand made fabric which are produced in various parts of Nepal, with "Palpa" district being one of the most famous ones. The hand-spun cotton inlay-pattern weaving used to make intricately patterned, colorful panels for Dhaka topis, is the most remarkable and visible cotton textile in Nepal. Pre-dyed cotton is weaved by master craftspeople into intricate patterns using only a few colours. The fabric is also used for a type of blouse called Dhaka ko Cholo, literally meaning a "blouse made of dhaka fabric", and shawls for women.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Application Highlights
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- `Firebase` CRUD operations
+- `Redux` integration for better state management
+- User authentication and authorization
+- Cart system, to store the products
+- Payment mechanism with both `Stripe` and `PayPal` gateways
+- `Netlify Forms` for serverless form submission
+- `Netlify` deployment
+- Interactive UI
+- `Sass` as CSS preprocessor
+- Mobile Responsive
 
-### `npm test`
+## Libraries Used
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [Node SASS](https://github.com/sass/node-sass) is used to natively compile .scss files to css
+- [Firebase](https://firebase.google.com/) is used as backend for the project
+- [Formik](https://formik.org/) and [Yup](https://github.com/jquense/yup) are used for handling forms and the form validations
+- [React Dropdown Select](https://sanusart.github.io/react-dropdown-select/) is used as dropdown component for UI along with custom dropdowns
+- [React Modal](https://github.com/reactjs/react-modal) is used as modal component for UI
+- [React Tabs](https://reactcommunity.org/react-tabs/) is used as tabs component for UI
+- [Redux](https://redux.js.org/) and [React Redux](https://react-redux.js.org/) for state management
+- [Redux Thunk](https://github.com/reduxjs/redux-thunk) for redux side effects logic including both synchronous and asynchronous requests
+- [Redux Logger](https://github.com/LogRocket/redux-logger) is used as logger for Redux
+- [Reselect](https://github.com/reduxjs/reselect) is used as “selector” library for Redux
 
-### `npm run build`
+## Netlify
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [Netlify](https://www.netlify.com/) is used for hosting the application to the web. [Netlify CLI](https://cli.netlify.com/) is used to deploy the site for production and other netlify related operations
+- [Netlify Forms](https://www.netlify.com/products/forms/) is used in the contact section of the application, for the form submission. It handles the simple contact form submission without having to write any server side code
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Payment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- The application includes [Stripe]() and [PayPal]() payment options
+- Since this is a demo project, production keys are not used
+- Dummy credentials are provided for both options to the users for mimicking the payment process
+- Stripe backend payment handling is not yet done, and will be integrating when `Node-Express` backend is built for the appliication
 
-### `npm run eject`
+## Local Deployment
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- Clone the repository or download the source code
+- Install the dependencies by running command `npm install` at the root directory of the project
+- Run the app in the development mode by running command `npm start`<br />Open http://localhost:3000 to view it in the browser
