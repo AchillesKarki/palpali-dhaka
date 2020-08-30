@@ -29,8 +29,8 @@ const SignUp = ({ signUpWithEmailAndPassword }) => {
         }}
         validationSchema={SignUpSchema}
         onSubmit={(values) => {
-          delete values.confirmPassword;
-          signUpWithEmailAndPassword(values);
+          const { confirmPassword, ...signUpValues } = values;
+          signUpWithEmailAndPassword(signUpValues);
         }}
       >
         {({ values, errors, touched }) => (
@@ -87,7 +87,7 @@ const SignUp = ({ signUpWithEmailAndPassword }) => {
         <p>
           Already Have An Account?
           <Link to='/auth/sign-in' className='sign-in-link'>
-            SIGN IN
+            SIGN UP
           </Link>
         </p>
       </div>
