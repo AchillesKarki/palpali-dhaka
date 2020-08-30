@@ -64,13 +64,14 @@ const MyProfile = ({ currentUser, updateUserProfile, setErrorMessage, changeUser
         }}
         validationSchema={profileSchema}
         onSubmit={(values) => {
-          delete values.id;
+          const updatedUserInfo = { ...values };
           const { id, createdAt, ...currentUserSlice } = currentUser;
+          delete updateUserProfile.id;
 
-          if (isEquivalent(values, currentUserSlice)) {
+          if (isEquivalent(updatedUserInfo, currentUserSlice)) {
             setErrorMessage('There are no changes to be updated.');
           } else {
-            updateUserProfile(values);
+            updateUserProfile(updatedUserInfo);
           }
         }}
       >

@@ -9,6 +9,7 @@ Dhaka is traditional hand made fabric which are produced in various parts of Nep
 
 ## Application Highlights
 
+- `React Hooks`
 - `Firebase` CRUD operations
 - `Redux` integration for better state management
 - User authentication and authorization

@@ -182,16 +182,15 @@ export const firebaseChangePassword = async (newPassword) => {
  */
 export const createUserProfileDocument = async (userInfo, additionalUserInfo) => {
   if (!userInfo) return;
+  try {
+    const userRef = firestore.doc(`users/${userInfo.uid}`);
 
-  const userRef = firestore.doc(`users/${userInfo.uid}`);
+    const userSnapshot = await userRef.get();
 
-  const userSnapshot = await userRef.get();
+    if (!userSnapshot.exists) {
+      const { displayName, email } = userInfo;
+      const createdAt = new Date();
 
-  if (!userSnapshot.exists) {
-    const { displayName, email } = userInfo;
-    const createdAt = new Date();
-
-    try {
       const newUser = {
         username: displayName ? displayName : additionalUserInfo.username,
         email,
@@ -206,14 +205,14 @@ export const createUserProfileDocument = async (userInfo, additionalUserInfo) =>
       };
 
       await userRef.set(newUser);
-      return newUser;
-    } catch (error) {
-      return error;
+      return { id: userSnapshot.id, ...newUser };
+    } else {
+      return {
+        id: userSnapshot.id,
+        ...userSnapshot.data(),
+      };
     }
-  } else {
-    return {
-      id: userSnapshot.id,
-      ...userSnapshot.data(),
-    };
+  } catch (error) {
+    return error;
   }
 };
