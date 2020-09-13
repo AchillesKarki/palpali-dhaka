@@ -12,7 +12,7 @@ import { toggleCartDropdown, closeCartDropdown } from '../../redux/cart/cart.act
 import { selectToggleCart, selectTotalCartItems } from '../../redux/cart/cart.selector';
 
 import './header.scss';
-import { ReactComponent as Logo } from '../../assets/icons/crown.svg';
+import MainLogo from '../../assets/images/main-logo.png';
 import { ReactComponent as UserLogo } from '../../assets/icons/user.svg';
 import { ReactComponent as CartLogo } from '../../assets/icons/shopping-cart.svg';
 
@@ -74,7 +74,7 @@ const Header = ({
   return (
     <div className='header'>
       <NavLink className='brand-logo-container' to='/'>
-        <Logo className='brand-logo' />
+        <img src={MainLogo} alt='main-logo' className='brand-logo' />
       </NavLink>
       <div className='navbar-icons' onClick={handleMenuCLick}>
         {menuOpen ? (
