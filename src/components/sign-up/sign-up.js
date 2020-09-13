@@ -77,7 +77,7 @@ const SignUp = ({ signUpWithEmailAndPassword }) => {
             </div>
 
             <button type='submit' className='btn btn-primary'>
-              Sign In
+              Sign Up
             </button>
           </Form>
         )}
@@ -87,7 +87,7 @@ const SignUp = ({ signUpWithEmailAndPassword }) => {
         <p>
           Already Have An Account?
           <Link to='/auth/sign-in' className='sign-in-link'>
-            SIGN UP
+            SIGN IN
           </Link>
         </p>
       </div>
