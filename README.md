@@ -1,6 +1,6 @@
 # Palpali Dhaka
 
-## [Live Demo](https://palpali-dhaka.netlify.app/)
+## [Live Site](https://palpali-dhaka.netlify.app/)
 
 ## Introduction
 
