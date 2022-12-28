@@ -10,7 +10,7 @@ const Footer = ({ currentUser }) => {
     <footer className='footer'>
       <div className='footer-container'>
         <div className='copyright'>
-          <span>Copyright ©2020 Palpali Dhaka</span>
+          <span>Copyright ©{new Date().getFullYear()} Palpali Dhaka</span>
         </div>
         <ul className='footer-nav'>
           <Link className='list-items' to='/'>
